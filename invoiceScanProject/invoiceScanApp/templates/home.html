@@ -58,16 +58,11 @@
 </head>
 <body>
     <form action="{% url "home" %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="upload-container">
-            <form>
-                {% csrf_token %}
-                {{ form.file }}
-                <!--<input type="file" id="file-upload" class="upload-input" accept="image/*">
-                <label for="file-upload" class="upload-button">Select Image</label>-->
-                <input type="submit" id="sub" class="upload-input">
-                <label for="sub" class="upload-button">Submit</label>
-
-            </form>
+            <label for="file-upload" class="upload-button">Select Image</label>
+            <input type="file" id="file-upload" name="file" class="upload-input" accept="image/*">
+            <input type="submit" value="Upload" class="upload-button">
         </div>
     </form>
     <script>
