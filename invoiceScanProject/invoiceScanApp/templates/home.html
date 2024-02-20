@@ -36,6 +36,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out;
+            margin-top:5px;
         }
         
         .upload-button:hover {
@@ -44,6 +45,7 @@
         
         .upload-input {
             display: none;
+            
         }
         
         .upload-label {
@@ -55,11 +57,16 @@
 
 </head>
 <body>
-    <form action="" method=POST enctype="multipart/form-data">
+    <form action="{% {% url "list" %}%}" method=POST enctype="multipart/form-data">
         <div class="upload-container">
-            <input type="file" id="file-upload" class="upload-input" accept="image/*">
-            <label for="file-upload" class="upload-button">Image Upload</label>
-            <span class="upload-label">Select an image or drop it here</span>
+            <form>
+                <p>{{ form.file }}</p>
+                <input type="file" id="file-upload" class="upload-input" accept="image/*">
+                <label for="file-upload" class="upload-button">Select Image</label>
+                <input type="submit" id="sub" class="upload-input">
+                <label for="sub" class="upload-button">Submit</label>
+
+            </form>
         </div>
     </form>
     <script>
