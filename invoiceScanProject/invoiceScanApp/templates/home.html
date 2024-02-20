@@ -53,9 +53,6 @@
             font-size: 14px;
             color: #999;
         }
-        table{
-            margin-bottom:10px;
-        }
     </style>
 
 </head>
@@ -63,19 +60,9 @@
     <form action="{% url "home" %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="upload-container">
-            <table>
-                <tr>
-                    <td>
-                        <label for="file-upload" class="upload-button">Select Image</label>
-                        <input type="file" id="file-upload" name="file" class="upload-input" accept="image/*">
-                    </td>
-                    <td>
-                        <label for="file-upload" class="upload-button">Select Multiple Images</label>
-                        <input type="file" id="file-upload" name="file" class="upload-input" accept="image/*">
-                    </td>
-                </tr>
-            </table>
-            <input type="submit" value="Upload" class="upload-button" id="sub">
+            <label for="file-upload" class="upload-button">Select Image</label>
+            <input type="file" id="file-upload" name="file" class="upload-input" accept="image/*">
+            <input type="submit" value="Upload" class="upload-button">
         </div>
     </form>
     <script>
