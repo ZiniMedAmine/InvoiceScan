@@ -2,7 +2,7 @@ from django import forms
 
 class UploadFileForm(forms.Form):
     file = forms.FileField(required=True, label='Select Image')
-#55
+
     def clean_file(self):
         file = self.cleaned_data['file']
         if not file.content_type.startswith('image/'):
