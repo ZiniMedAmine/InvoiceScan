@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 django = "==5.0.2"
+opencv-python = "*"
+pytesseract = "*"
 
 [dev-packages]
 
