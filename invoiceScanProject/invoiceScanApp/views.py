@@ -12,14 +12,22 @@ def home(request):
                 single_file = form.cleaned_data['file']
                 id_single = Id.objects.create(doc=single_file)
                 id_single.save()
+<<<<<<< HEAD
                 response_message = "Single image with id " + str(id_single.pk) + " uploaded with the name : " + str(id_single.doc)
+=======
+                response_message = "Single image with id " + str(id_single.pk) + " uploaded: " + str(id_single.doc)
+>>>>>>> 3eb236e375a98f27c01a8371539a4e669846ab81
 
                 # Handle multiple files
                 files = request.FILES.getlist('files')
                 for uploaded_file in files:
                     id_multiple = Id.objects.create(doc=uploaded_file)
                     id_multiple.save()
+<<<<<<< HEAD
                     response_message += "\image with id " + str(id_multiple.pk) + " uploaded with the name: " + str(id_multiple.doc)
+=======
+                    response_message += "\nMultiple image with id " + str(id_multiple.pk) + " uploaded: " + str(id_multiple.doc)
+>>>>>>> 3eb236e375a98f27c01a8371539a4e669846ab81
 
                 return HttpResponse(response_message)
             except Exception as e:
