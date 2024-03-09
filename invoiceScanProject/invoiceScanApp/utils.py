@@ -14,8 +14,12 @@ def preprocess_image(image_path):
 
     return adaptive_thresh
 
-def perform_ocr(preprocessed_image, config='--psm 6'):
+def perform_ocr(preprocessed_image, config='--psm 12 --oem 1 '):
     """Performs OCR on a preprocessed image."""
 
     text = pytesseract.image_to_string(preprocessed_image, config=config)
     return text
+#--tessedit_char_whitelist: Restrict character recognition to a specific set (e.g., --tessedit_char_whitelist ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789).
+#--tesssedit_char_blacklist: Exclude specific characters from recognition.
+#--oem_lstm_mode: Control LSTM engine mode (0: standard, 1: alternative).
+#--image_denoise_noise_norm: Adjust image denoising level (0.0 to 1.0).
