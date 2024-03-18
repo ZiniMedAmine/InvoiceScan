@@ -23,10 +23,8 @@ def home(request):
             preprocessed_image_path = os.path.join(settings.MEDIA_ROOT, preprocessed_image_filename)
             cv2.imwrite(preprocessed_image_path, preprocessed_image)
             extracted_text = perform_ocr(preprocessed_image)
-            
             results.append(f"Image: {id_image.doc.name}<br>Extracted Text: {extracted_text}")
-
-        return HttpResponse("<br>".join(results), content_type="text/html")
+        return HttpResponse("<br>".join(results), content_type="text/html; charset=utf-8")
 
     else:
         form = UploadFileForm() 

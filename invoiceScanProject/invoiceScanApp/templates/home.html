@@ -1,84 +1,44 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Upload</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f5f5f5;
-        }
-        
-        .upload-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-        
-        .upload-button {
-            font-family: sans-serif;
-            font-size: 16px;
-            text-align: center;
-            color: #fff;
-            background-color: #3498db;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-            margin-top:5px;
-        }
-        
-        .upload-button:hover {
-            background-color: #2980b9;
-        }
-        
-        .upload-input {
-            display: none;
-            
-        }
-        
-        .upload-label {
-            margin-top: 10px;
-            font-size: 14px;
-            color: #999;
-        }
-        table{
-            margin-bottom:10px;
-        }
-    </style>
+    <title>InvoiceScan+</title>
+    <link rel="stylesheet" href="{% static 'fonts/hind_mysuru/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/HomeStyle.css' %}">
 
 </head>
 <body>
-    <form action="{% url "home" %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="upload-container">
-            <table>
-                <tr>
-                    <td>
-                        <label for="file-upload" class="upload-button">Select Image</label>
-                        <input type="file" id="file-upload" name="files" class="upload-input" accept="image/*">
-                    </td>
-                    <td>
-                        <label for="files-upload" class="upload-button">Select Multiple Images</label>
-                        <input type="file" id="files-upload" name="files" class="upload-input" accept="image/*" multiple>
-                    </td>
-                </tr>
-            </table>
-            <input type="submit" value="Upload" class="upload-button">
-            
-        </div>
-    </form>
+    <header class="TopContainer">
+        <image src = "{% static 'images/Logo.png' %}" id="logo"></image>
+        <h3 id="slogan"> Your Invoice Management Superpower </h3>
+        <p id="description">InvoiceScan+  is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker Lorem Ipsum.</p>
+    </header>
+
+    <div class="GuideContainer">
+        <h1 id="guideTitle">Guide</h1>
+    </div>
+
+    <div class="UploadContainer">
+        <form action="{% url "home" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="upload-container">
+                <h1 id="uploadTitle"> Upload Your Images </h1>
+                <div class="uploadButtonsContainer">
+                    <label for="file-upload" class="upload-button upload-single"><p id="SelectImage">Select Image </p><image src = "{% static 'images/SingleIcon.png' %}" id="singleIcon"></image></label>
+                    <input type="file" id="file-upload" name="files" class="upload-input" accept="image/*">
+
+                    <label for="files-upload" class="upload-button upload-multiple"><p id="SelectMultiple">Select Images</p> <image src = "{% static 'images/MultipleIcon.png' %}" id="multipleIcon"></image></label>
+                    <input type="file" id="files-upload" name="files" class="upload-input" accept="image/*" multiple>
+                </div>
+                <input type="submit" value="Submit" id="submitBTN">
+            </div>
+        </form>
+    </div>
+    <footer>
+        <h1 id="footerTitle"> Contact Us</h1>
+    </footer>
     <script>
         
     </script>

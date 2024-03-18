@@ -8,6 +8,7 @@ django = "==5.0.2"
 opencv-python = "*"
 pytesseract = "*"
 tesseract = "*"
+autocorrect = "*"
 
 [dev-packages]
 

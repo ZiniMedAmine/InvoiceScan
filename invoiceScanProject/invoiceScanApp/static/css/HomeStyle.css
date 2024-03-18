@@ -1,0 +1,179 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: #222629;
+}
+#logo{
+    width: 35vw;
+    margin-top: 5vh;
+}
+#slogan{
+    color: #FFF;
+    text-align: center;
+    -webkit-text-stroke-width: 0.5;
+    -webkit-text-stroke-color: #FFF;
+    font-family: "Helvetica Neue UltraLight";
+    font-size: 2.3vw;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+    letter-spacing: 1.2vw;
+}
+
+#description{
+    color: #EAEAEA;
+    text-align: center;
+    font-family: "Hind Mysuru Light";
+    font-size: 2rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;   
+    width: 90vw;
+}
+
+
+header{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: space-between; 
+}
+
+.GuideContainer{
+    width: 99vw;
+    height: 1080px;
+    display: flex;
+    justify-content: center;
+    border-radius: 13.625rem 13.625rem 0rem 0rem;
+    background: #EAEAEA;    
+}
+#guideTitle{
+    color: #222629;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 6rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+footer{
+    background: #EAEAEA;
+    width: 99vw;
+    height: 37.9375rem;
+    flex-shrink: 0;
+}
+#footerTitle{
+    color: #222629;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 6rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    height: 100vh;
+    width: 99vw;
+}
+.uploadButtonsContainer{
+    display: flex;
+    flex-direction: row;
+}
+#uploadTitle{
+    margin-top: 10vh;
+    margin-bottom: 10vh;
+    color: #86C232;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 4vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+#submitBTN{
+    border-radius: 6.125rem;
+    background: #FFF;
+    width: 23.6875rem;
+    height: 6.0625rem;
+    flex-shrink: 0;
+    margin-top: 7vh;
+    content: "Submit";
+    color: #222629;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 3.3vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+#submitBTN:hover{
+    background:#d6d6d6;
+}
+
+.upload-button{
+    width: 25vw;
+    height: 25vw;
+    border-radius: 5vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #86C232;
+}
+.upload-button:hover {
+    background-color: #61892F;
+}
+.upload-single{
+    margin-right: 8vw;
+}
+.upload-multiple{
+    margin-left: 8vw;
+}
+.upload-input {
+    display: none;
+    
+}
+.upload-label {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #999;
+}
+#singleIcon{
+    width: 12vw;
+}
+#multipleIcon{
+    width: 12vw;
+}
+#SelectImage{
+    color: #FFF;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 2.2vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    flex-shrink: 0;
+    margin-top: -3vh;
+    margin-bottom: 5vh;
+}
+#SelectMultiple{
+    color: #FFF;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 2.2vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    flex-shrink: 0;
+    margin-top: -3vh;
+    margin-bottom: 5vh;
+}

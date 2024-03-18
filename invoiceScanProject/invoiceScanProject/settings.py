@@ -41,6 +41,11 @@ INSTALLED_APPS = [
     'invoiceScanApp',
 ]
 
+
+DEFAULT_CHARSET = 'UTF-8'
+
+DEFAULT_CONTENT_TYPE = 'text/html; charset=utf-8'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
