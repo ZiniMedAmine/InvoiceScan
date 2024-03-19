@@ -29,7 +29,7 @@ def preprocess_image(image_path):
     Resizedimg=auto_resize(image_path,width*2)
 
     gray = cv2.cvtColor(Resizedimg, cv2.COLOR_BGR2GRAY)
-    
+
     def noise_removal(img):
         kernel_size = (1,2)
 
@@ -154,4 +154,7 @@ def perform_ocr(preprocessed_image):
 
 
 #arabic solution lel AutoCorrect links : https://dumps.wikimedia.org/arwiki/latest/arwiki-latest-pages-articles.xml.bz2 ; https://github.com/filyp/autocorrect/tree/master?tab=readme-ov-file#adding-new-languages
+
+
+
 #traineddata tessdata files in order to change the --oem 2
