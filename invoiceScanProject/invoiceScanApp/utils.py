@@ -5,7 +5,7 @@ import re
 from autocorrect import Speller
 import pyarabic.araby as araby
 import langid
-from .global_variables import tunisian_names, university_names, clubs_names, tech_words
+from .global_variables import tunisian_names, universities, clubs, tech_words, companies, cities
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 #Preprocessing code
@@ -31,7 +31,7 @@ def preprocess_image(image_path):
     gray = cv2.cvtColor(Resizedimg, cv2.COLOR_BGR2GRAY)
 
     def noise_removal(img):
-        kernel_size = (1,2)
+        kernel_size = (2,1)
 
         dilation_kernel = np.ones(kernel_size, np.uint8)
         img = cv2.dilate(img, dilation_kernel, iterations=1)
@@ -109,23 +109,25 @@ def preprocess_image(image_path):
 
             y += 1  # Increase y for next iteration
             print(y)
-        return thresh
+            pad_amount = 3
+            thresh_padded = cv2.copyMakeBorder(thresh, pad_amount, pad_amount, pad_amount, pad_amount, cv2.BORDER_CONSTANT, value=255)
+        return thresh_padded
     
 
     return applyThresh(noise_removal(gray), x)
 
+#OCR Code 
 def perform_ocr(preprocessed_image):
-    """Performs OCR on a preprocessed image, dynamically detecting languages."""
     text = pytesseract.image_to_string(preprocessed_image, config='--psm 12 --oem 1', lang='eng+french+ara')
 
     # Exclude specific words from spell checking
     words = text.split()
     corrected_words = []
     allowed_languages = {'en', 'fr', 'ar'}
-    excluded_words = tunisian_names | university_names | clubs_names | tech_words
+    excluded_words = tunisian_names | universities | clubs | tech_words | companies | cities 
     for word in words:
         detected_lang, _ = langid.classify(word)
-        detected_lang = detected_lang if detected_lang in ('en', 'fr', 'ar') else 'en'
+        detected_lang = detected_lang if detected_lang in ('en', 'fr', 'ar') else 'fr'
         lang_code = detected_lang[:2].lower()
         if lang_code in allowed_languages:
             if lang_code == 'ar':
@@ -134,7 +136,7 @@ def perform_ocr(preprocessed_image):
                 #corrected_word = spell(word)
                 corrected_word = word
             else:
-                if word.lower() in excluded_words:
+                if (word.lower() in excluded_words or ("@" in word.lower() and "." in word.lower())):
                     corrected_word = word
                 else:
                     spell = Speller(lang=lang_code)
@@ -150,7 +152,7 @@ def perform_ocr(preprocessed_image):
     #w hedha y5ali ken l chars w l nums w some special chars
     cleaned_text = re.sub(r"[^\w\s\-&\.\/%@+]", "", cleaned_text)
 
-    return corrected_text
+    return cleaned_text
 
 
 #arabic solution lel AutoCorrect links : https://dumps.wikimedia.org/arwiki/latest/arwiki-latest-pages-articles.xml.bz2 ; https://github.com/filyp/autocorrect/tree/master?tab=readme-ov-file#adding-new-languages
