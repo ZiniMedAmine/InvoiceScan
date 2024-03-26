@@ -5,8 +5,17 @@ import re
 from autocorrect import Speller
 import pyarabic.araby as araby
 import langid
+import os
+import PIL.Image
+import google.generativeai as genai
+from django.conf import settings
+
 from .global_variables import tunisian_names, universities, clubs, tech_words, companies, cities
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+#Gemini setup and configuration
+genai.configure(api_key=settings.GOOGLE_API_KEY)
+model = genai.GenerativeModel('gemini-pro')
 
 #Preprocessing code
 def preprocess_image(image_path):
@@ -112,7 +121,6 @@ def preprocess_image(image_path):
             pad_amount = 3
             thresh_padded = cv2.copyMakeBorder(thresh, pad_amount, pad_amount, pad_amount, pad_amount, cv2.BORDER_CONSTANT, value=255)
         return thresh_padded
-    
 
     return applyThresh(noise_removal(gray), x)
 
@@ -153,6 +161,16 @@ def perform_ocr(preprocessed_image):
     cleaned_text = re.sub(r"[^\w\s\-&\.\/%@+]", "", cleaned_text)
 
     return cleaned_text
+
+def organize_data(corrected_text):
+    data = model.generate_content(["Context : I will give you a text extracted by Tesseract OCR from images of administrative documents that are used in tunisia, the text is not well ordered. Instruction : classify the document and organize the data, i want the document type and the organized data as an output"+corrected_text])
+
+    return data.text
+
+
+
+
+
 
 
 #arabic solution lel AutoCorrect links : https://dumps.wikimedia.org/arwiki/latest/arwiki-latest-pages-articles.xml.bz2 ; https://github.com/filyp/autocorrect/tree/master?tab=readme-ov-file#adding-new-languages

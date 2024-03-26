@@ -1,0 +1,66 @@
+**Document Type:** Resume
+
+**Data:**
+
+**Personal Information:**
+
+* Name: Mohamed Amine Zini
+* Phone Number: +216 96 655 726
+* Email Address: zini.m.amine@gmail.com
+* Address: 0 Hammamet Tunisia
+* LinkedIn: Mohamed Amine Zini
+
+**Education:**
+
+* Bachelor of Computer Science & Multimedia, Higher Institute of Computer Science of Mahdia (2021-present)
+* Baccalaureate in Computer Science (2021)
+
+**Skills:**
+
+**Web Development:**
+
+* HTML, CSS, Javascript
+* MERN Stack
+* PHP, SQL
+* Git, Github
+
+**Digital Media Skills:**
+
+* Adobe Photoshop
+* Adobe Illustrator
+
+**Social Media Management and Marketing:**
+
+* Social media & community management
+* Brand identity design
+* Online community building
+
+**Experience:**
+
+**Freelance Graphic Designer (June 2023 - present)**
+
+* Created brand identities and graphics for clients
+
+**Web Development Intern, Tunisie Telecom (July 2023)**
+
+* Created a Social Activity Management website using MERN stack
+
+**Graphic Designer & Media Manager, Google Developer Student Club - ISIMA (2022-2023)**
+
+* Responsible for graphic design and content creation
+* Led a team of 5 graphic designers
+* Social media and community management
+* Attracted 1000 people to national event
+
+**Co-founder & Vice President of Marketing, BIL - ISIMA (2021-2022)**
+
+* Led a team of 7 graphic designers and video editors
+* Created brand identity and marketing materials
+* Built an online community of 1k+ followers
+* Social media and community management
+
+**Languages:**
+
+* English
+* Arabic
+* French
