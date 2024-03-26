@@ -135,4 +135,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Preprocessed')
 
+OUTPUT_ROOT = os.path.join(BASE_DIR, 'Results')
+
 GOOGLE_API_KEY = "AIzaSyDcbQ3q2wvCctLGooFrh1epZk4aJSd-YTs"

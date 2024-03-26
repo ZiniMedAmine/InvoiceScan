@@ -5,8 +5,6 @@ import re
 from autocorrect import Speller
 import pyarabic.araby as araby
 import langid
-import os
-import PIL.Image
 import google.generativeai as genai
 from django.conf import settings
 

@@ -27,9 +27,9 @@ def home(request):
             results.append(f"Image: {id_image.doc.name}<br>Extracted Text: {text}")
 
             #extracting the results in a text file
-            current_dir = os.getcwd()
-            filename = "Results.txt"
-            with open(os.path.join(current_dir, filename), 'w', encoding='utf-8') as f:
+            results_dir = settings.OUTPUT_ROOT
+            filename = f"Results_{id_image.pk}.txt"
+            with open(os.path.join(results_dir, filename), 'w', encoding='utf-8') as f:
                 f.write(text)
 
         return HttpResponse("<br>".join(results), content_type="text/html; charset=utf-8")
