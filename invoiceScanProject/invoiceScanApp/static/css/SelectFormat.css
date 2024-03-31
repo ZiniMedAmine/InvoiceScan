@@ -108,3 +108,13 @@ body {
 #ExportBTN:hover {
     background: #86C232;
 }
+
+#dataContainer {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+}
