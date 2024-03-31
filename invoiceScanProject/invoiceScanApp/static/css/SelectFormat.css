@@ -9,12 +9,12 @@ body {
 }
 
 #logo {
-
     display: flex;
     align-items: center;
     justify-content: center;
     width: 35vw;
     margin-top: 5vh;
+    margin-bottom: 5vh;
 }
 
 .DataContainer {
@@ -60,8 +60,6 @@ body {
     margin-left: 3.5vh;
     margin-right: auto;
     justify-content: space-between;
-
-
 
 }
 

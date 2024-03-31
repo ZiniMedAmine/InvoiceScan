@@ -13,14 +13,15 @@
     <header class="TopContainer">
         <image src = "{% static 'images/Logo.png' %}" id="logo"></image>
         <h3 id="slogan"> Your Invoice Management Superpower </h3>
-        <p id="description">InvoiceScan+ is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker Lorem Ipsum.</p>
-    </header>
+        <p id="description">Welcome ! Our innovative application is designed to effortlessly digitize and extract data from your invoices and receipts. Using advanced Optical Character Recognition (OCR) technology powered by machine learning, InvoiceScan+ automatically identifies key information from your invoice images. Simply upload your invoice, and within moments, our user-friendly interface allows you to review and edit the extracted data before exporting it in your preferred format, making managing your expenses easier than ever before. Try InvoiceScan+ today and experience the convenience of streamlined invoice processing!</p>
+        <div id="scrollButton"></div>
+        </header>
 
     <div class="GuideContainer">
         <h1 id="guideTitle">Guide</h1>
     </div>
 
-    <div class="UploadContainer">
+    <section class="UploadContainer" id="UploadSection">
         <form action="{% url "home" %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="upload-container">
@@ -35,12 +36,16 @@
                 <input type="submit" value="Submit" id="submitBTN">
             </div>
         </form>
-    </div>
+    </section>
     <footer>
         <h1 id="footerTitle"> Contact Us</h1>
     </footer>
     <script>
-        
+        document.getElementById('scrollButton').addEventListener('click', function() {
+            document.getElementById('UploadSection').scrollIntoView({
+              behavior: 'smooth'
+            });
+          });          
     </script>
 </body>
 </html>
