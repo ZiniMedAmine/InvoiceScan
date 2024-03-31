@@ -161,7 +161,7 @@ def perform_ocr(preprocessed_image):
     return cleaned_text
 
 def organize_data(corrected_text):
-    data = model.generate_content(["Context : I will give you a text extracted by Tesseract OCR from images of administrative documents that are used in tunisia, the text is not well ordered. Instruction : classify the document and organize the data, i want the document type and the organized data as an output"+corrected_text])
+    data = model.generate_content(["Context : I will give you a text extracted by Tesseract OCR from images of administrative documents that are used in tunisia, the text is not well ordered. Instruction : classify the document and organize the data, i want the document type and the organized data as an output and i want the output to be very clear and well orginized "+corrected_text])
 
     return data.text
 

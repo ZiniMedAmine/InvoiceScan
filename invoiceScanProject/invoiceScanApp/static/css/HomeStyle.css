@@ -7,11 +7,13 @@ body {
     flex-direction: column;
     background-color: #222629;
 }
-#logo{
+
+#logo {
     width: 35vw;
     margin-top: 5vh;
 }
-#slogan{
+
+#slogan {
     color: #FFF;
     text-align: center;
     -webkit-text-stroke-width: 0.5;
@@ -24,35 +26,49 @@ body {
     letter-spacing: 1.2vw;
 }
 
-#description{
+#description {
     color: #EAEAEA;
     text-align: center;
     font-family: "Hind Mysuru Light";
     font-size: 2rem;
     font-style: normal;
     font-weight: 400;
-    line-height: normal;   
+    line-height: normal;
     width: 90vw;
 }
 
 
-header{
+header {
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
     justify-content: space-between;
 }
 
-.GuideContainer{
+.GuideContainer {
     width: 99vw;
     height: 1080px;
     margin-top: 5vh;
     display: flex;
     justify-content: center;
     border-radius: 13.625rem 13.625rem 0rem 0rem;
-    background: #EAEAEA;    
+    background: #EAEAEA;
 }
-#guideTitle{
+
+/*hedhi*/
+.DataContainer {
+    width: 99vw;
+    height: 1080px;
+    margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #000000;
+    background: #EAEAEA;
+    border-radius: 4rem;
+
+}
+
+#guideTitle {
     color: #222629;
     text-align: center;
     font-family: Helvetica;
@@ -62,13 +78,14 @@ header{
     line-height: normal;
 }
 
-footer{
+footer {
     background: #EAEAEA;
     width: 99vw;
     height: 37.9375rem;
     flex-shrink: 0;
 }
-#footerTitle{
+
+#footerTitle {
     color: #222629;
     text-align: center;
     font-family: Helvetica;
@@ -77,6 +94,7 @@ footer{
     font-weight: 700;
     line-height: normal;
 }
+
 .upload-container {
     display: flex;
     flex-direction: column;
@@ -85,11 +103,13 @@ footer{
     height: 100vh;
     width: 99vw;
 }
-.uploadButtonsContainer{
+
+.uploadButtonsContainer {
     display: flex;
     flex-direction: row;
 }
-#uploadTitle{
+
+#uploadTitle {
     margin-top: 10vh;
     margin-bottom: 10vh;
     color: #86C232;
@@ -101,7 +121,7 @@ footer{
     line-height: normal;
 }
 
-#submitBTN{
+#submitBTN {
     border-radius: 6.125rem;
     border: none;
     background: #FFFFFF;
@@ -117,11 +137,35 @@ footer{
     font-weight: 700;
     line-height: normal;
 }
-#submitBTN:hover{
-    background:#d6d6d6;
+
+#submitBTN:hover {
+    background: #d6d6d6;
 }
 
-.upload-button{
+/*hedhi*/
+#BTN {
+    border-radius: 6.125rem;
+    border: none;
+    background: #86C232;
+    width: 20.5vw;
+    height: 5.2vw;
+    margin-top: 7vh;
+    content: "Submit";
+    color: #ffffff;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 3.3vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+/*hedhi*/
+#BTN:hover {
+    background: #86C232;
+}
+
+.upload-button {
     width: 25vw;
     height: 25vw;
     border-radius: 5vw;
@@ -131,31 +175,39 @@ footer{
     flex-direction: column;
     background: #86C232;
 }
+
 .upload-button:hover {
     background-color: #61892F;
 }
-.upload-single{
+
+.upload-single {
     margin-right: 8vw;
 }
-.upload-multiple{
+
+.upload-multiple {
     margin-left: 8vw;
 }
+
 .upload-input {
     display: none;
-    
+
 }
+
 .upload-label {
     margin-top: 10px;
     font-size: 14px;
     color: #999;
 }
-#singleIcon{
+
+#singleIcon {
     width: 12vw;
 }
-#multipleIcon{
+
+#multipleIcon {
     width: 12vw;
 }
-#SelectImage{
+
+#SelectImage {
     color: #FFF;
     text-align: center;
     font-family: Helvetica;
@@ -167,7 +219,8 @@ footer{
     margin-top: -3vh;
     margin-bottom: 5vh;
 }
-#SelectMultiple{
+
+#SelectMultiple {
     color: #FFF;
     text-align: center;
     font-family: Helvetica;

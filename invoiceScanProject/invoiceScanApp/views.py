@@ -32,7 +32,7 @@ def home(request):
             with open(os.path.join(results_dir, filename), 'w', encoding='utf-8') as f:
                 f.write(text)
 
-        return HttpResponse("<br>".join(results), content_type="text/html; charset=utf-8")
+        return render(request, "selectFormat.html", {'results': results})
 
     else:
         form = UploadFileForm() 

@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InvoiceScan+ - Results</title>
+
+  <link rel="stylesheet" href="{% static 'css/SelectFormat.css' %}">
+</head>
+<body>
+  <header>
+    <image src="{% static 'images/Logo.png' %}" id="logo"></image>
+  </header>
+
+  <div class="DataContainer" id="dataContainer">
+    {% for result in results %}
+      <p>{{ result }}</p>
+    {% endfor %}
+  </div>
+
+  <div class="ButtonContainer">
+    <button id="BTN" class="edit-button">Edit Data</button>
+    <button id="BTN" class="save-button">Submit</button>
+  </div>
+
+  <div class="exportContainer">
+    <h1>Select Export Format :</h1>
+                                                                                    
+      <label for="export-pdf">
+        <input type="checkbox" id="export-pdf" class="exportFormat" value="pdf"> PDF
+      </label>
+      <label for="export-csv">
+        <input type="checkbox" id="export-csv" class="exportFormat" value="csv"> CSV
+      </label>
+      <label for="export-word">
+        <input type="checkbox" id="export-word" class="exportFormat" value="word"> Word
+      </label>
+    </div>
+    <button id="ExportBTN" class="export-button">Export</button>
+  </div>
+
+</body>
+</html>

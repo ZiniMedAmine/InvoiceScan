@@ -1,0 +1,49 @@
+**Document Type:** Electricity Bill
+
+**Organized Data:**
+
+**Customer Information:**
+- Customer Name: المجريسي أحمد
+- Account Number: 02165706215500
+- Address: 3 - 5
+- Postal Code: 7023.42.08
+- District: 8020
+
+**Billing Period:**
+- From: 2023.06.06
+- To: 2024.01.01
+
+**Consumption Details:**
+| Type | Index | Consumption | Unit Price | Amount |
+|---|---|---|---|---|
+| Électricité | 573 | 5 | 0.119 | 0.595
+| Éclairage | 176 | 876 | 0.006 | 5.256
+
+**Service Charges:**
+| Type | Amount |
+|---|---|
+| Dépannage | 72.292 |
+
+**Total Electricity:** 78.143
+
+**Gas Consumption:** Not applicable
+
+**Total Services:** 72.292
+
+**Total Consumption and Services:** 150.435
+
+**Taxes and Fees:**
+| Type | Amount |
+|---|---|
+| المغاليم العادية | 11.907
+| Contribution Communes | 1.354
+| Contribution IT | 8.400
+| Contribution Radio | 0.000
+| TVA | 57.774
+
+**Total Taxes and Fees:** 79.435
+
+**Bill Summary:**
+- Total Amount Due: 202.869
+- Unpaid Amount: 0
+- Due Date: 2024.02.06

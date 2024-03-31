@@ -1,0 +1,20 @@
+**Document Type:** Bank Statement
+
+**Organized Data:**
+
+**Account Information:**
+
+| Date | Value | Balance |
+|---|---|---|
+| 30/11/20 | 11 86275 | 01/2 |
+| 01/2 | 28000 | 01/2 |
+
+**Transactions:**
+
+| Date | Description | Amount |
+|---|---|---|
+| 07/12 | IR SPA ANIS | 28000 |
+| 07/12 | RL Free Telecom | 3999 |
+| 10/12 | ESPRIT ASSOCIATION | 730 |
+| 11/2 | RL FR | 203455906 |
+| 11/2 | SPA | 89-NOQXKP-01 | 001632949103 |

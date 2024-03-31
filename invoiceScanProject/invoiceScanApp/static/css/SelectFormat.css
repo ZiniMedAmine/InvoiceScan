@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: #222629;
+}
+
+#logo {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35vw;
+    margin-top: 5vh;
+}
+
+.DataContainer {
+    width: 95vw;
+    height: 1080px;
+    margin-top: 5vh;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #000000;
+    background: #EAEAEA;
+    border-radius: 4rem;
+
+}
+
+#BTN {
+    border-radius: 6.125rem;
+    border: none;
+    background: #86C232;
+    width: 13.5vw;
+    height: 4.2vw;
+    margin-top: 7vh;
+    margin-bottom: 3vh;
+    margin-right: 0;
+    color: #ffffff;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 2.2vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+
+#BTN:hover {
+    background: #86C232;
+}
+
+.exportContainer {
+    color: #FFF;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 3.5vh;
+    margin-right: auto;
+    justify-content: space-between;
+
+
+
+}
+
+.exportContainer label {
+
+    display: flex;
+    align-items: center;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+}
+
+.exportFormat {
+    color: #FFF;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 2vh;
+    justify-content: space-between;
+
+
+
+}
+
+#ExportBTN {
+    border-radius: 6.125rem;
+    border: none;
+    background: #86C232;
+    width: 13.5vw;
+    height: 4.2vw;
+    margin-top: 7vh;
+    margin-bottom: 3vh;
+    margin-left: 5vh;
+    margin-right: auto;
+    color: #ffffff;
+    text-align: center;
+    font-family: Helvetica;
+    font-size: 2.2vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+
+#ExportBTN:hover {
+    background: #86C232;
+}

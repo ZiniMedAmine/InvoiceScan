@@ -1,0 +1,18 @@
+**Document Type:** Bank Statement
+
+**Organized Data:**
+
+**Date Range:** 01/12/20 - 11/12/20
+
+**Account Summary:**
+
+* **Balance on 30/11/20:** 11 86275
+
+**Transactions:**
+
+| Date | Transaction Type | Reference Number | Amount |
+|---|---|---|---|
+| 07/12 | Debit | 2033859G | 3999 |
+| 07/12 | Credit | 995869443 | 10099718 |
+| 10/12 | Debit | 203455906 | 730 |
+| 10/12 | Credit | 995869443 | 10048844 |
