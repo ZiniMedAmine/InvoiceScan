@@ -7,7 +7,7 @@ import pyarabic.araby as araby
 import langid
 import google.generativeai as genai
 from django.conf import settings
-
+import time
 from .global_variables import tunisian_names, universities, clubs, tech_words, companies, cities
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -17,6 +17,7 @@ model = genai.GenerativeModel('gemini-pro')
 
 #Preprocessing code
 def preprocess_image(image_path):
+    start_time = time.time()
 
     image = cv2.imread(image_path)
     height, width, _ = image.shape
@@ -32,6 +33,8 @@ def preprocess_image(image_path):
         resized_image = cv2.resize(image, (target_width, target_height))
 
         return resized_image
+
+    
 
     Resizedimg=auto_resize(image_path,width*2)
 
@@ -99,7 +102,7 @@ def preprocess_image(image_path):
         best_ratio = 0
 
         while True:
-            thresh = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, x, y)
+            thresh = cv2.adaptiveThreshold(image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, x, y-1)
             # Calculate foreground to background ratio
             foreground_pixels = cv2.countNonZero(thresh)
             background_pixels = image.size - foreground_pixels
@@ -116,63 +119,71 @@ def preprocess_image(image_path):
 
             y += 1  # Increase y for next iteration
             print(y)
-            pad_amount = 3
+            pad_amount = 5
             thresh_padded = cv2.copyMakeBorder(thresh, pad_amount, pad_amount, pad_amount, pad_amount, cv2.BORDER_CONSTANT, value=255)
-        return thresh_padded
 
-    return applyThresh(noise_removal(gray), x)
+        return thresh_padded
+    PreProcessed = applyThresh(noise_removal(gray), x)
+    
+
+    end_time = time.time()
+    
+    print("Preprocessing image took: {:.2f} seconds".format(end_time - start_time))
+
+    return PreProcessed
 
 #OCR Code 
 def perform_ocr(preprocessed_image):
+    start_time = time.time()
+
     text = pytesseract.image_to_string(preprocessed_image, config='--psm 12 --oem 1', lang='eng+french+ara')
 
-    # Exclude specific words from spell checking
-    words = text.split()
-    corrected_words = []
-    allowed_languages = {'en', 'fr', 'ar'}
-    excluded_words = tunisian_names | universities | clubs | tech_words | companies | cities 
-    for word in words:
-        detected_lang, _ = langid.classify(word)
-        detected_lang = detected_lang if detected_lang in ('en', 'fr', 'ar') else 'fr'
-        lang_code = detected_lang[:2].lower()
-        if lang_code in allowed_languages:
-            if lang_code == 'ar':
-                #spell = Speller(lang='ar')
-                print("mezelt mal9itch solu lel aarbi (possible solutions : symspellpy + ar dictionary || autocorrect + new lang AR )")
-                #corrected_word = spell(word)
-                corrected_word = word
-            else:
-                if (word.lower() in excluded_words or ("@" in word.lower() and "." in word.lower())):
-                    corrected_word = word
-                else:
-                    spell = Speller(lang=lang_code)
-                    corrected_word = spell(word)
+    # # Exclude specific words from spell checking
+    # words = text.split()
+    # corrected_words = []
+    # allowed_languages = {'en', 'fr', 'ar'}
+    # excluded_words = tunisian_names | universities | clubs | tech_words | companies | cities 
+    # for word in words:
+    #     detected_lang, _ = langid.classify(word)
+    #     detected_lang = detected_lang if detected_lang in ('en', 'fr', 'ar') else 'fr'
+    #     lang_code = detected_lang[:2].lower()
+    #     if lang_code in allowed_languages:
+    #         if lang_code == 'ar':
+    #             #spell = Speller(lang='ar')
+    #             print("mezelt mal9itch solu lel aarbi (possible solutions : symspellpy + ar dictionary || autocorrect + new lang AR )")
+    #             #corrected_word = spell(word)
+    #             corrected_word = word
+    #         else:
+    #             if (word.lower() in excluded_words or ("@" in word.lower() and "." in word.lower())):
+    #                 corrected_word = word
+    #             else:
+    #                 spell = Speller(lang=lang_code)
+    #                 corrected_word = spell(word)
 
-            corrected_words.append(corrected_word)
+    #         corrected_words.append(corrected_word)
 
-    corrected_text = " ".join(corrected_words)
+    # corrected_text = " ".join(corrected_words)
     #hedha ynahi l line breaks l zeydin
-    cleaned_text = corrected_text.strip().replace("\n\n", "\n")
+    cleaned_text = text.strip().replace("\n\n", "\n")
     #w hedha ynahi l espacet li wra baadhhom
     cleaned_text = re.sub(r"\s+", " ", cleaned_text)
     #w hedha y5ali ken l chars w l nums w some special chars
     cleaned_text = re.sub(r"[^\w\s\-&\.\/%@+]", "", cleaned_text)
 
+    end_time = time.time()
+ 
+    print("Performing OCR took: {:.2f} seconds".format(end_time - start_time))
+
     return cleaned_text
 
 def organize_data(corrected_text):
-    data = model.generate_content(["Context : I will give you a text extracted by Tesseract OCR from images of administrative documents that are used in tunisia, the text is not well ordered. Instruction : classify the document and organize the data, i want the document type and the organized data as an output and i want the output to be very clear and well orginized "+corrected_text])
+    start_time = time.time()
+
+    data = model.generate_content(["Context : I will give you a text extracted by Tesseract OCR from images of administrative documents that are used in tunisia, the text is not well ordered. Instruction : classify the document and organize the data, i want the document type and the organized data as output"+corrected_text])
+
+    end_time = time.time()
+
+    print("Organizing data took: {:.2f} seconds".format(end_time - start_time))
+
 
     return data.text
-
-
-
-
-
-
-
-#arabic solution lel AutoCorrect links : https://dumps.wikimedia.org/arwiki/latest/arwiki-latest-pages-articles.xml.bz2 ; https://github.com/filyp/autocorrect/tree/master?tab=readme-ov-file#adding-new-languages
-
-
-
-#traineddata tessdata files in order to change the --oem 2

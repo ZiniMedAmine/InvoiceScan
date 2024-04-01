@@ -4,41 +4,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InvoiceScan+ - Results</title>
+  <title>InvoiceScan+</title>
 
+  <link rel="stylesheet" href="{% static 'fonts/hind_mysuru/style.css' %}">
   <link rel="stylesheet" href="{% static 'css/SelectFormat.css' %}">
+
+
+
 </head>
 <body>
+
+
   <header>
     <image src="{% static 'images/Logo.png' %}" id="logo"></image>
+    <h3 id="slogan"> Your Invoice Management Superpower </h3>
   </header>
 
   <div class="DataContainer" id="dataContainer">
-    {% for result in results %}
-      <p>{{ result }}</p>
-    {% endfor %}
+    <table id="dataTable">
+      {% for result in results %}
+        <tr>
+          <pre>{{ result }}</pre>
+        </tr>
+      {% endfor %}
+    </table>
   </div>
 
   <div class="ButtonContainer">
-    <button id="BTN" class="edit-button">Edit Data</button>
-    <button id="BTN" class="save-button">Submit</button>
+    <button class="BTN" id="edit-button">Edit Data</button>
+    <button class="BTN" id="save-button">Submit</button>
   </div>
 
   <div class="exportContainer">
-    <h1>Select Export Format :</h1>
+    <h1 id="selectTitle">Select Export Format :</h1>
                                                                                     
       <label for="export-pdf">
         <input type="checkbox" id="export-pdf" class="exportFormat" value="pdf"> PDF
       </label>
+
       <label for="export-csv">
         <input type="checkbox" id="export-csv" class="exportFormat" value="csv"> CSV
       </label>
+      
       <label for="export-word">
         <input type="checkbox" id="export-word" class="exportFormat" value="word"> Word
       </label>
     </div>
+    
     <button id="ExportBTN" class="export-button">Export</button>
+  
   </div>
-
 </body>
 </html>

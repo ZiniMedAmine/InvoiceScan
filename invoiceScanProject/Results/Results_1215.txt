@@ -1,0 +1,51 @@
+# Document type: 
+Resume
+
+# Organized data:
+
+**Personal Info**
+- Name: William D. Sutton
+- Email: w.d.sutton@gmail.com
+- Phone: +1-799-456-7678
+- LinkedIn: linkedin.com/in/wdsutton
+
+**Skills**
+- Written communication
+- Problem-solving
+- eCommerce/SaaS Marketing
+- Python for language research
+- Google Analytics
+- Adobe Photoshop
+- Adobe InDesign
+- Statistics
+- Philosophy
+- Linguistics
+
+**Education**
+- MA in Linguistics, UCLA, Expected June 2020, GPA: 3.85
+- Bachelor of Science in Cognitive Science, UCLA, 2017, GPA: 3.9
+- High School Diploma, Abraham Lincoln High School, Los Angeles, CA, GPA: 3.95
+
+**Experience**
+- Website Intern, Fragrance Unlimited, 2018-06 - 2018-09
+- Supported the eCommerce Manager in the optimization of categories, product and section, and content revamping across the site.
+- Organized products in appropriate sections in a timely manner.
+- Worked with eCommerce Manager & local SEO agency to optimize site content.
+- Reduced the number of pages crawled by Google and implement local best practices to encourage organic traffic.
+- Partnered with the international team to localize content and develop specific pages for the USA market.
+- Worked with the eCommerce Manager on clean-up and implementation of local tags using Google Tag Manager and Google Analytics.
+- Helped manage the overall portfolio of merchandise by ensuring strong customer-centric categorization and updated content.
+
+**Key Achievements**
+- UCLA Golden Key Member
+- Dean's List 2017
+
+**Extracurricular Activities and Achievements**
+- Founder of LingoBuzz blog, a student-run blog on language changes observable in new media
+- Freelance contributor to 5 online music magazines
+- Member of Athletics Team, Grade 10-12
+- Member of English Club, Grade 9-11
+
+**Additional Activities**
+- Independent music labels
+- Graphic design

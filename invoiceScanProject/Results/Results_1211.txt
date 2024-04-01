@@ -1,0 +1,52 @@
+### Document Type: Resume
+### Organized Data
+**Personal Information**
+* Name: W. D. Sutton
+* Address: 
+* Phone Number: +1-799-456-7678
+* Email Address: w.d.sutton@gmail.com
+* LinkedIn: linkedin.com/in/wdsutton
+
+**Education**
+* 2018 - Present
+    * MA in Linguistics
+    * UCLA
+    * GPA: 3.85
+* 2017
+    * Bachelor of Science in Cognitive Science
+    * UCLA
+    * GPA: 3.9
+
+**Work Experience**
+* 2018-09
+    * Fragrance Unlimited
+    * Website Intern
+* 2018-06
+    * Junior SEO Specialist
+    * William TakeOff Media
+
+**Skills**
+* Written communication
+* Problem-solving
+* eCommerce/SaaS Marketing
+* Google Analytics
+* Adobe Photoshop
+* Adobe InDesign
+* Python for language research
+
+**Languages**
+* English (Conversational)
+* Spanish (Conversational)
+
+**Extracurricular Activities and Achievements**
+* Founder of LingoBuzz blog, a student-run blog on language changes observable in new media
+* Freelance contributor to 5 online music magazines
+* Member of Athletics Team, Grade 10-12
+* Member of English Club, Grade 9-11
+* Deans List 2015, 2016, 2017
+* UCLA Golden Key Member
+* Combined SAT score: 1500 (Math: 700, Evidence-Based Reading and Writing: 800)
+
+**Interests**
+* Independent music labels
+* Graphic design

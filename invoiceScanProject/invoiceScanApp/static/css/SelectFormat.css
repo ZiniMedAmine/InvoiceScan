@@ -1,6 +1,6 @@
 body {
-    margin: 0;
     padding: 0;
+    margin: 0;
     display: flex;
     align-items: center;
     min-height: 100vh;
@@ -8,28 +8,46 @@ body {
     background-color: #222629;
 }
 
-#logo {
+header{
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: space-between;
+}
+#logo {
     width: 35vw;
     margin-top: 5vh;
-    margin-bottom: 5vh;
 }
 
+#slogan{
+    color: #FFF;
+    text-align: center;
+    -webkit-text-stroke-width: 0.5;
+    -webkit-text-stroke-color: #FFF;
+    font-family: "Helvetica Neue UltraLight";
+    font-size: 2.3vw;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+    letter-spacing: 1.2vw;
+}
+#dataTable{
+    border: none;
+}
 .DataContainer {
-    width: 95vw;
-    height: 1080px;
+    width: 93vw;
+    min-height: 100vh;
+    height: auto;
     margin-top: 5vh;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     border: 1px solid #000000;
     background: #EAEAEA;
     border-radius: 4rem;
-
+    padding-left: 2vw;
 }
 
-#BTN {
+.BTN {
     border-radius: 6.125rem;
     border: none;
     background: #86C232;
@@ -37,7 +55,6 @@ body {
     height: 4.2vw;
     margin-top: 7vh;
     margin-bottom: 3vh;
-    margin-right: 0;
     color: #ffffff;
     text-align: center;
     font-family: Helvetica;
@@ -45,11 +62,13 @@ body {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    margin: 2vw;
 }
 
 
-#BTN:hover {
-    background: #86C232;
+.BTN:hover {
+    background: #61892F;
+    transition-duration: 0.2s;
 }
 
 .exportContainer {
@@ -60,7 +79,15 @@ body {
     margin-left: 3.5vh;
     margin-right: auto;
     justify-content: space-between;
-
+}
+label{
+    font-family: "Helvetica";
+}
+#selectTitle{
+    font-family: Helvetica;
+    font-size: 2vw;
+    font-style: normal;
+    font-weight: 700;
 }
 
 .exportContainer label {
@@ -71,6 +98,7 @@ body {
     font-size: 2rem;
 }
 
+
 .exportFormat {
     color: #FFF;
     display: flex;
@@ -78,8 +106,6 @@ body {
     align-items: flex-start;
     margin-left: 2vh;
     justify-content: space-between;
-
-
 
 }
 
@@ -89,8 +115,8 @@ body {
     background: #86C232;
     width: 13.5vw;
     height: 4.2vw;
-    margin-top: 7vh;
-    margin-bottom: 3vh;
+    margin-top: 3vh;
+    margin-bottom: 7vh;
     margin-left: 5vh;
     margin-right: auto;
     color: #ffffff;
@@ -104,15 +130,6 @@ body {
 
 
 #ExportBTN:hover {
-    background: #86C232;
-}
-
-#dataContainer {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    margin-right: auto;
-    flex-direction: column;
+    background: #61892F;
+    transition-duration: 0.2s;
 }

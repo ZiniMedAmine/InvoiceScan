@@ -72,7 +72,7 @@ body {
 }
 
 
-header{
+.TopContainer{
     display: flex;
     flex-direction: column;
     align-items: center; 
