@@ -173,13 +173,12 @@ def perform_ocr(preprocessed_image):
     end_time = time.time()
  
     print("Performing OCR took: {:.2f} seconds".format(end_time - start_time))
-
     return cleaned_text
 
 def organize_data(corrected_text):
     start_time = time.time()
 
-    data = model.generate_content(["Context : I will give you a text extracted by Tesseract OCR from images of administrative documents that are used in tunisia, the text is not well ordered. Instruction : classify the document and organize the data, i want the document type and the organized data as output"+corrected_text])
+    data = model.generate_content(["Context : I will give you a text extracted by Tesseract OCR from images of administrative documents that are used in tunisia, the text is not well ordered. Instruction : classify the document and organize the data, i want the document type and the organized data as output; data: "+corrected_text])
 
     end_time = time.time()
 

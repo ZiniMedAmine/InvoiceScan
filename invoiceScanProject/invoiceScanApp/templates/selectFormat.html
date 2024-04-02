@@ -6,14 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>InvoiceScan+</title>
 
+  <link rel="stylesheet" href="{% static 'css/bootstrap-5.3.3/css/bootstrap.min.css' %}">
+
+
   <link rel="stylesheet" href="{% static 'fonts/hind_mysuru/style.css' %}">
   <link rel="stylesheet" href="{% static 'css/SelectFormat.css' %}">
 
-
-
 </head>
 <body>
-
 
   <header>
     <image src="{% static 'images/Logo.png' %}" id="logo"></image>
@@ -25,6 +25,7 @@
       {% for result in results %}
         <tr>
           <pre>{{ result }}</pre>
+          <textarea class="result-textarea" style="display: none;">{{ result }}</textarea>
         </tr>
       {% endfor %}
     </table>
@@ -39,20 +40,34 @@
     <h1 id="selectTitle">Select Export Format :</h1>
                                                                                     
       <label for="export-pdf">
-        <input type="checkbox" id="export-pdf" class="exportFormat" value="pdf"> PDF
+        <input type="checkbox" id="export-pdf" class="exportFormat form-check-input success-checkbox" value="pdf"><span class="labelspan"> PDF</span>
       </label>
 
       <label for="export-csv">
-        <input type="checkbox" id="export-csv" class="exportFormat" value="csv"> CSV
+        <input type="checkbox" id="export-csv" class="exportFormat form-check-input success-checkbox" value="csv"><span class="labelspan">  CSV</span>
       </label>
       
       <label for="export-word">
-        <input type="checkbox" id="export-word" class="exportFormat" value="word"> Word
+        <input type="checkbox" id="export-word" class="exportFormat form-check-input" value="word"><span class="labelspan">  Word</span>
       </label>
     </div>
     
     <button id="ExportBTN" class="export-button">Export</button>
   
   </div>
+
+  <script src="{% static 'css/bootstrap-5.3.3/js/bootstrap.bundle.min.js' %}"></script>
+
+  <script>
+    document.getElementById('edit-button').addEventListener('click', function() {
+      var textElements = document.querySelectorAll('.result-text');
+      var textareaElements = document.querySelectorAll('.result-textarea');
+      for (var i = 0; i < textElements.length; i++) {
+        textElements[i].style.display = 'none';
+        textareaElements[i].style.display = 'block';
+        textareaElements[i].value = textElements[i].textContent;
+      }
+    });
+  </script>
 </body>
 </html>

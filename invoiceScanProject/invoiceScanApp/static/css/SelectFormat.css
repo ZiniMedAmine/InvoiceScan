@@ -30,6 +30,7 @@ header{
     font-weight: 100;
     line-height: normal;
     letter-spacing: 1.2vw;
+    margin-top: 1vh;
 }
 #dataTable{
     border: none;
@@ -91,11 +92,9 @@ label{
 }
 
 .exportContainer label {
-
     display: flex;
-    align-items: center;
-    margin-bottom: 3rem;
-    font-size: 2rem;
+    margin-bottom: 2vh;
+    font-size: 3rem;
 }
 
 
@@ -105,8 +104,11 @@ label{
     flex-direction: column;
     align-items: flex-start;
     margin-left: 2vh;
+    margin-right: 2vh;
     justify-content: space-between;
-
+}
+span.labelspan {
+    margin-left: 1vh;
 }
 
 #ExportBTN {
@@ -132,4 +134,13 @@ label{
 #ExportBTN:hover {
     background: #61892F;
     transition-duration: 0.2s;
+}
+
+.form-check-input:checked {
+    background-color: #86C232;
+    border: #86C232;
+  }
+.form-check-input:focus {
+    box-shadow: 0 0 2px 2px #86C232; /* Adjust the values as needed */
+    border-color: #86C232;
 }
