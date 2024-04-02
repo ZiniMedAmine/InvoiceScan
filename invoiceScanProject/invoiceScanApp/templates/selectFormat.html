@@ -25,7 +25,6 @@
       {% for result in results %}
         <tr>
           <pre>{{ result }}</pre>
-          <textarea class="result-textarea" style="display: none;">{{ result }}</textarea>
         </tr>
       {% endfor %}
     </table>
@@ -59,15 +58,7 @@
   <script src="{% static 'css/bootstrap-5.3.3/js/bootstrap.bundle.min.js' %}"></script>
 
   <script>
-    document.getElementById('edit-button').addEventListener('click', function() {
-      var textElements = document.querySelectorAll('.result-text');
-      var textareaElements = document.querySelectorAll('.result-textarea');
-      for (var i = 0; i < textElements.length; i++) {
-        textElements[i].style.display = 'none';
-        textareaElements[i].style.display = 'block';
-        textareaElements[i].value = textElements[i].textContent;
-      }
-    });
+
   </script>
 </body>
 </html>
