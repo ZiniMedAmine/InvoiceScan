@@ -42,10 +42,11 @@ header{
     margin-top: 5vh;
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     border: 1px solid #000000;
     background: #EAEAEA;
     border-radius: 4rem;
-    padding-left: 2vw;
+    padding: 50px;
 }
 
 .BTN {
@@ -143,4 +144,11 @@ span.labelspan {
 .form-check-input:focus {
     box-shadow: 0 0 2px 2px #86C232; /* Adjust the values as needed */
     border-color: #86C232;
+}
+
+textarea{
+    margin-bottom: 0.5vh;
+}
+.form-control{
+    background-color: #EAEAEA;
 }
