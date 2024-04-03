@@ -24,7 +24,7 @@ def home(request):
             cv2.imwrite(preprocessed_image_path, preprocessed_image)
             extracted_text = perform_ocr(preprocessed_image)
             text = organize_data(extracted_text)
-            results.append(f"Image: {id_image.doc.name} \n Extracted Text: {text}")
+            results.append(f"{id_image.doc.name} \n \n {text}")
 
             #extracting the results in a text file
             results_dir = settings.OUTPUT_ROOT
