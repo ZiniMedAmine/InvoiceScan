@@ -23,12 +23,16 @@
   <div class="DataContainer" id="dataContainer">
     <table id="dataTable">
       {% for result in results %}
-        <tr>
-          <pre class="result-text">{{ result }}</pre>
-          <textarea class="result-textarea form-control" rows ="{{ result.strip.splitlines|length }}" style="display: none;">{{ result }}</textarea>
-          <br/>
-        </tr>
-      {%endfor%}
+      <tr>
+        <h3 class="dataTitles">Image Name: {{ result.image_name }}</h3>
+        <h3 class="dataTitles">Document Type: {{ result.document_type }} </h3>
+      </tr>
+      <tr>
+        <pre class="result-text">{{ result.text }}</pre>
+        <textarea class="result-textarea form-control" rows ="{{ result.text.strip.splitlines|length }}" style="display: none;">{{ result.text }}</textarea>
+        <br/>
+      </tr>
+    {%endfor%}
     </table>
   </div>
 
@@ -68,6 +72,8 @@
         textareaElements[i].style.display = 'block';
         textareaElements[i].value = textElements[i].textContent;
       }
+      textareaElements[0].focus();
+
     });
   
   </script>

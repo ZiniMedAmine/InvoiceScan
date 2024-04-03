@@ -156,3 +156,7 @@ textarea{
     box-shadow: 0 0 3px 3px #86C232; /* Adjust the values as needed */
     border-color: #86C232;
 }
+.dataTitles{
+    margin-bottom: 2vh;
+    color: #222629;
+}

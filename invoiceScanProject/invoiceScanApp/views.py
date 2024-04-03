@@ -6,6 +6,7 @@ from .models import Id
 from .utils import preprocess_image, perform_ocr, organize_data
 import cv2
 import os
+import re
 
 def home(request):
     if request.method == 'POST':
@@ -24,12 +25,21 @@ def home(request):
             cv2.imwrite(preprocessed_image_path, preprocessed_image)
             extracted_text = perform_ocr(preprocessed_image)
             text = organize_data(extracted_text)
-            results.append(f"{id_image.doc.name} \n \n {text}")
 
-            #extracting the results in a text file
+            # Extracting image name and document type
+            image_name = id_image.doc.name.split('/')[-1]
+
+            document_type = text.split('\n')[0].replace('Document Type', '').strip()
+            document_type = re.sub(r'[^a-zA-Z]', '', document_type)
+
+            # Removing image name and document type from the text
+            text = '\n'.join(text.split('\n')[3:])
+
+            results.append({'image_name': image_name, 'document_type': document_type, 'text': text})
+
+            # Extracting the results in a text file
             results_dir = settings.OUTPUT_ROOT
             filename = f"Results_{id_image.pk}.txt"
-
             with open(os.path.join(results_dir, filename), 'w', encoding='utf-8') as f:
                 f.write(text)
 
