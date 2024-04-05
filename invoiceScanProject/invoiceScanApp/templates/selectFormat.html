@@ -4,35 +4,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+
   <title>InvoiceScan+</title>
-
   <link rel="stylesheet" href="{% static 'css/bootstrap-5.3.3/css/bootstrap.min.css' %}">
-
-
   <link rel="stylesheet" href="{% static 'fonts/hind_mysuru/style.css' %}">
   <link rel="stylesheet" href="{% static 'css/SelectFormat.css' %}">
-
 </head>
 <body>
 
   <header>
     <image src="{% static 'images/Logo.png' %}" id="logo"></image>
-    <h3 id="slogan"> Your Invoice Management Superpower </h3>
+    <h3> Your Invoice Management Superpower </h3>
   </header>
 
   <div class="DataContainer" id="dataContainer">
     <table id="dataTable">
       {% for result in results %}
       <tr>
-        <h3 class="dataTitles">Image Name: {{ result.image_name }}</h3>
-        <h3 class="dataTitles">Document Type: {{ result.document_type }} </h3>
+        <h3 class="dataTitles image_name">Image Name: {{ result.image_name }}</h3>
+        <h3 class="dataTitles doc_type">Document Type: {{ result.document_type }} </h3>
       </tr>
       <tr>
         <pre class="result-text">{{ result.text }}</pre>
         <textarea class="result-textarea form-control" rows ="{{ result.text.strip.splitlines|length }}" style="display: none;">{{ result.text }}</textarea>
         <br/>
       </tr>
-    {%endfor%}
+      {% endfor %}
     </table>
   </div>
 
@@ -43,39 +41,101 @@
 
   <div class="exportContainer">
     <h1 id="selectTitle">Select Export Format :</h1>
-                                                                                    
-      <label for="export-pdf">
-        <input type="checkbox" id="export-pdf" class="exportFormat form-check-input success-checkbox" value="pdf"><span class="labelspan"> PDF</span>
-      </label>
+    <label for="export-pdf">
+      <input type="checkbox" id="export-pdf" class="exportFormat form-check-input success-checkbox" value="pdf"><span class="labelspan"> PDF</span>
+    </label>
 
-      <label for="export-csv">
-        <input type="checkbox" id="export-csv" class="exportFormat form-check-input success-checkbox" value="csv"><span class="labelspan">  CSV</span>
-      </label>
-      
-      <label for="export-word">
-        <input type="checkbox" id="export-word" class="exportFormat form-check-input" value="word"><span class="labelspan">  Word</span>
-      </label>
-    </div>
-    
-    <button id="ExportBTN" class="export-button">Export</button>
+    <label for="export-csv">
+      <input type="checkbox" id="export-csv" class="exportFormat form-check-input success-checkbox" value="csv"><span class="labelspan">  CSV</span>
+    </label>
   
+    <label for="export-word">
+      <input type="checkbox" id="export-word" class="exportFormat form-check-input" value="word"><span class="labelspan">  Word</span>
+    </label>
   </div>
+  
+  <button id="ExportBTN" class="export-button">Export</button>
 
-  <script src="{% static 'css/bootstrap-5.3.3/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+<script src="{% static 'css/bootstrap-5.3.3/js/bootstrap.bundle.min.js' %}"></script>
 
-  <script>
+<script>
+    const results = {{ results|safe  }};
+    const editedText = [];
+  
     document.getElementById('edit-button').addEventListener('click', function() {
       var textElements = document.querySelectorAll('.result-text');
       var textareaElements = document.querySelectorAll('.result-textarea');
+      
       for (var i = 0; i < textElements.length; i++) {
         textElements[i].style.display = 'none';
         textareaElements[i].style.display = 'block';
         textareaElements[i].value = textElements[i].textContent;
       }
       textareaElements[0].focus();
-
+  
+      // Reset editedText array when clicking edit
+      editedText.length = 0;
     });
   
-  </script>
-</body>
+
+    document.getElementById('save-button').addEventListener('click', function() {
+      const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      
+      editedText.length = 0;
+    
+      var textElements = document.querySelectorAll('.result-text');
+      var textareaElements = document.querySelectorAll('.result-textarea');
+      
+      for (var i = 0; i < textElements.length; i++) {
+        textElements[i].style.display = 'block';
+        textareaElements[i].style.display = 'none';
+        // Update textElements with the value from textareaElements
+        textElements[i].textContent = textareaElements[i].value; // This line was missing before
+        // Assign text content to textElements[i].value instead of textareaElements[i].textContent
+        textElements[i].value = textareaElements[i].value; // Added this line to ensure that textElements have updated values
+        
+        let imageName = results[i].image_name;
+        let documentType = results[i].document_type;
+      
+        editedText.push({
+          image_name: imageName,
+          document_type: documentType,
+          text: textElements[i].value // Use textElements[i].value instead of textareaElements[i].textContent
+        });
+      }
+      
+      console.log(editedText)
+      
+      fetch('/invoiceScanApp/save_edited_text/', {
+        method: 'POST',
+        body: JSON.stringify(editedText),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrftoken
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          console.log('Edited text saved successfully!');
+          
+          // Update display after saving
+          var textElements = document.querySelectorAll('.result-text');
+          var textareaElements = document.querySelectorAll('.result-textarea');
+          for (var i = 0; i < textElements.length; i++) {
+            textElements[i].style.display = 'block';
+            textElements[i].textContent = textareaElements[i].value;
+            textareaElements[i].style.display = 'none';
+          }
+        } else {
+          console.error('Error saving edited text:', data);
+        }
+      })
+      .catch(error => {
+        console.error('Error sending data:', error);
+      });
+    });
+
+</script>
 </html>
