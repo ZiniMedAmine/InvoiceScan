@@ -38,11 +38,10 @@
     <button class="BTN" id="edit-button">Edit Data</button>
     <button class="BTN" id="save-button">Submit</button>
   </div>
-
-  <div class="exportContainer">
+  <div class="exportContainer" style="display: none;">
     <h1 id="selectTitle">Select Export Format :</h1>
-    <label for="export-pdf">
-      <input type="checkbox" id="export-pdf" class="exportFormat form-check-input success-checkbox" value="pdf"><span class="labelspan"> PDF</span>
+    <label for="export-json">
+      <input type="checkbox" id="export-json" class="exportFormat form-check-input success-checkbox" value="json"><span class="labelspan"> JSON</span>
     </label>
 
     <label for="export-csv">
@@ -53,89 +52,150 @@
       <input type="checkbox" id="export-word" class="exportFormat form-check-input" value="word"><span class="labelspan">  Word</span>
     </label>
   </div>
+  <button id="ExportBTN" class="export-button" style="display: none;">Export</button>
   
-  <button id="ExportBTN" class="export-button">Export</button>
-
 </body>
 <script src="{% static 'css/bootstrap-5.3.3/js/bootstrap.bundle.min.js' %}"></script>
 
 <script>
-    const results = {{ results|safe  }};
-    const editedText = [];
   
-    document.getElementById('edit-button').addEventListener('click', function() {
-      var textElements = document.querySelectorAll('.result-text');
-      var textareaElements = document.querySelectorAll('.result-textarea');
-      
-      for (var i = 0; i < textElements.length; i++) {
-        textElements[i].style.display = 'none';
-        textareaElements[i].style.display = 'block';
-        textareaElements[i].value = textElements[i].textContent;
-      }
-      textareaElements[0].focus();
+  const results = {{ results|safe }};
+  const editedText = [];
   
-      // Reset editedText array when clicking edit
-      editedText.length = 0;
-    });
+  document.getElementById('edit-button').addEventListener('click', function() {
+    var textElements = document.querySelectorAll('.result-text');
+    var textareaElements = document.querySelectorAll('.result-textarea');
+    
+    for (var i = 0; i < textElements.length; i++) {
+      textElements[i].style.display = 'none';
+      textareaElements[i].style.display = 'block';
+      textareaElements[i].value = textElements[i].textContent;
+    }
+    textareaElements[0].focus();
+  
+    // Reset editedText array when clicking edit
+    editedText.length = 0;
+  });
   
 
-    document.getElementById('save-button').addEventListener('click', function() {
-      const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-      
-      editedText.length = 0;
+  document.getElementById('save-button').addEventListener('click', function() {
+    const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     
-      var textElements = document.querySelectorAll('.result-text');
-      var textareaElements = document.querySelectorAll('.result-textarea');
+    editedText.length = 0;
+  
+    var textElements = document.querySelectorAll('.result-text');
+    var textareaElements = document.querySelectorAll('.result-textarea');
+    
+    for (var i = 0; i < textElements.length; i++) {
+      textElements[i].style.display = 'block';
+      textareaElements[i].style.display = 'none';
+      // Update textElements with the value from textareaElements
+      textElements[i].textContent = textareaElements[i].value;
+      textElements[i].value = textareaElements[i].value;  // Added to ensure updated values
       
-      for (var i = 0; i < textElements.length; i++) {
-        textElements[i].style.display = 'block';
-        textareaElements[i].style.display = 'none';
-        // Update textElements with the value from textareaElements
-        textElements[i].textContent = textareaElements[i].value; // This line was missing before
-        // Assign text content to textElements[i].value instead of textareaElements[i].textContent
-        textElements[i].value = textareaElements[i].value; // Added this line to ensure that textElements have updated values
+      let imageName = results[i].image_name;
+      let documentType = results[i].document_type;
+      
+      editedText.push({
+        image_name: imageName,
+        document_type: documentType,
+        text: textElements[i].value  // Use textElements[i].value
+      });
+    }
+    
+    console.log(editedText)
+    
+    fetch('/invoiceScanApp/save_edited_text/', {
+      method: 'POST',
+      body: JSON.stringify(editedText),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        console.log('Edited text saved successfully!');
         
-        let imageName = results[i].image_name;
-        let documentType = results[i].document_type;
-      
-        editedText.push({
-          image_name: imageName,
-          document_type: documentType,
-          text: textElements[i].value // Use textElements[i].value instead of textareaElements[i].textContent
-        });
+        // Update display after saving and show export section
+        var textElements = document.querySelectorAll('.result-text');
+        var textareaElements = document.querySelectorAll('.result-textarea');
+        for (var i = 0; i < textElements.length; i++) {
+          textElements[i].style.display = 'block';
+          textElements[i].textContent = textareaElements[i].value;
+          textareaElements[i].style.display = 'none';
+        }
+        
+        const exportContainer = document.querySelector('.exportContainer');
+        const exportButton = document.getElementById('ExportBTN');
+        exportContainer.style.display = 'block';
+        exportButton.style.display = 'block';
+      } else {
+        console.error('Error saving edited text:', data);
+      }
+    })
+    .catch(error => {
+      console.error('Error sending data:', error);
+    });
+  });
+
+    document.getElementById('ExportBTN').addEventListener('click', function() {
+      const exportJSON = document.getElementById('export-json').checked;
+      const exportCSV = document.getElementById('export-csv').checked;
+      const exportWORD = document.getElementById('export-word').checked;
+
+      if (!exportJSON && !exportCSV && !exportWORD) {
+        alert('Please select at least one format to export.');
+        return;
+      }
+  
+      const selectedFormats = [];
+      if (exportJSON) {
+        selectedFormats.push('json');
+      }
+      if (exportCSV) {
+        selectedFormats.push('csv');
+      }
+      if (exportWORD) {
+        selectedFormats.push('word');
       }
       
-      console.log(editedText)
-      
-      fetch('/invoiceScanApp/save_edited_text/', {
+  
+      const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  
+      fetch('/invoiceScanApp/export/', {
         method: 'POST',
-        body: JSON.stringify(editedText),
+        body: JSON.stringify({ formats: selectedFormats }),
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': csrftoken
         }
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          console.log('Edited text saved successfully!');
-          
-          // Update display after saving
-          var textElements = document.querySelectorAll('.result-text');
-          var textareaElements = document.querySelectorAll('.result-textarea');
-          for (var i = 0; i < textElements.length; i++) {
-            textElements[i].style.display = 'block';
-            textElements[i].textContent = textareaElements[i].value;
-            textareaElements[i].style.display = 'none';
-          }
+      .then(response => response.blob())
+      .then(blob => {
+        const filename = 'exported_data.zip'; // Change the filename as needed
+        if (blob.size > 0) {
+          // Create a blob URL for the downloaded file
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
         } else {
-          console.error('Error saving edited text:', data);
+          console.error('Error: Empty response received for export.');
         }
       })
       .catch(error => {
-        console.error('Error sending data:', error);
+        console.error('Error exporting data:', error);
       });
-    });
+      const exportContainer = document.querySelector('.exportContainer');
+      const exportButton = document.getElementById('ExportBTN');
+      exportContainer.style.display = 'none';
+      exportButton.style.display = 'none';
+    });  
 
 </script>
 </html>

@@ -137,4 +137,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'Preprocessed')
 
 OUTPUT_ROOT = os.path.join(BASE_DIR, 'Results')
 
-GOOGLE_API_KEY = "AIzaSyDcbQ3q2wvCctLGooFrh1epZk4aJSd-YTs"
+HISTORY_ROOT = os.path.join(BASE_DIR, 'History')
+
+GOOGLE_API_KEY = "AIzaSyAvjib2DZH90vioDaM7guHqdQvvDIl1dxw"

@@ -49,6 +49,10 @@ header{
     padding: 50px;
 }
 
+pre{
+    white-space: break-spaces;
+}
+
 .BTN {
     border-radius: 6.125rem;
     border: none;

@@ -8,12 +8,13 @@ import langid
 import google.generativeai as genai
 from django.conf import settings
 import time
+import os
 from .global_variables import tunisian_names, universities, clubs, tech_words, companies, cities
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 #Gemini setup and configuration
 genai.configure(api_key=settings.GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-pro')
+model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
 #Preprocessing code
 def preprocess_image(image_path):
@@ -171,17 +172,25 @@ def perform_ocr(preprocessed_image):
     cleaned_text = re.sub(r"[^\w\s\-&\.\/%@+]", "", cleaned_text)
 
     end_time = time.time()
- 
+    print(cleaned_text)
     print("Performing OCR took: {:.2f} seconds".format(end_time - start_time))
     return cleaned_text
 
 def organize_data(corrected_text):
     start_time = time.time()
 
-    data = model.generate_content(["Context : I will give you a text extracted by Tesseract OCR from images of administrative documents that are used in tunisia, the text is not well ordered. Instruction : classify the document and organize the data, i want the document type and the organized data as output; data: "+corrected_text])
+    app_dir = os.path.dirname(os.path.abspath(__file__))  # Get app directory path
+    prompt_file_path = os.path.join(app_dir, 'prompt.txt')
+
+    with open(prompt_file_path, 'r', encoding='utf-8') as prompt_file:
+        prompt_text = prompt_file.read()
+
+    data = model.generate_content([prompt_text+corrected_text])
+    
     end_time = time.time()
 
     print("Organizing data took: {:.2f} seconds".format(end_time - start_time))
 
 
     return data.text
+

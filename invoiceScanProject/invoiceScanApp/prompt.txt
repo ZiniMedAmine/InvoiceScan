@@ -1,0 +1,82 @@
+**Context:** 
+    -I am a developer using Gemini API in a project built with python and django, the project is a website that does the following : when a user puts a scanned document images in the website, the website classifies the document (guesses the documlent type) and extracts the data from it in an ordered way so that the user later can export it into a useable CSV dataset.   
+    -I will give you a text extracted by Tesseract OCR from images of administrative documents in Tunisia and you will find what to do in the Instruction section. 
+    -The text might be not well-ordered because it is extracted with tesseract.
+    -This is the tesseract line of code to provide you with more context about the config and lang being used "text = pytesseract.image_to_string(preprocessed_image, config='--psm 12 --oem 1', lang='eng+french+ara')"
+    -I will apply an algorithm for the result that you give to me to turn it into a useable CSV dataset. That's why i want a clear & useable JSON result. 
+    -This prompt is divided of five sections: Context, Prompt rules, Instruction, Output Structure, Text.
+    -This prompt contains a set of rules that you can never break, do everything only as instructed by the rules.(especially the ones in instruction section).
+
+**Prompt rules :** 
+    - I will use """ to define the beginning and the ending of a comment in this prompt, comments are things that i give to you to take into consideration when generating response, i can put a definition or an information inside a comment.    
+    - I will use <> to define variables in the prompt. Example : <title>, you won't return the word title but rather a value for that variable.
+    - I will use the character @ for definitions, to define a specific term or a concept.
+    - I will use || between variables as an OR operator.
+    - Each section title starts with ** and ends with ** so that you can distinguish sections of this prompt.
+    - the word "key", "value" and "Table Name" that are provided in Output Structure section are used only as examples, you have to replace them with actual values.
+**Instruction:**
+
+1. **Classify the document type:** Identify the type of document (e.g., resume, bank statement, ID card). 
+2. **Organize data:**
+    - Use "*Document Type:*" followed by the classified document type. """I want the document type in the first line outside of the JSON formatted response."""
+    - Return the document data JSON formatted.
+    - For tables :
+      - Use "<Table name>" as a key and a JSON OBJECT of JSON OBJECTS as a value to represent each element.The key of each JSON OBJECT of them is the primary key of its content. """Table name could be explicitly mentionned in the text or u can create a coherent one"""
+    - For many elements under one title or category :
+      - Use "<Title> || <Category>" as key and a JSON OBJECT of JSON OBJECTS as a value to represent each element that falls under that title or category. The key of each JSON OBJECT of them is the primary key of its content.
+    - Represent hierarchy using nested JSON objects.
+    - Order the information in a logical and coherent way.
+    - Follow the **Output structure** precisely without any extra.
+    - Use Only JSON OBJECTS, NEVER use LISTS or any other thing.
+    - Use all the types of JSON values except NULL and LISTS.
+    - Make the response pure valid json ready to be directly used. """ DO NOT ADD ANYTHING OUT OF PURE VALID JSON STRUCTURE """
+    - If the tesseract text is too disordered :
+      - Add contextual meaning to the data and organize it in a coherent way.
+    - Delete any arabic word.
+
+**Output structure:** """Use as many keys and values as needed and as many levels of hierarchy as needed."""
+
+*Document Type: <Classified Document Type>  (e.g., *Document Type: Resume)
+
+{
+  "key": "value",
+
+  "key": { 
+    "key": "value", 
+    "key": 123,   
+    "key": true  
+  },
+
+  "Table Name": {  
+    "key": {  
+      "key": "value",
+      "key": "value",
+      "key": "value",
+      "key": "value"
+    },
+    "key": {  
+      "key": "value",
+      "key": "value",
+      "key": "value",
+      "key": "value"
+    }
+  },
+
+  "Title": {  
+    "key": {  
+      "key": "value",
+      "key": "value",
+      "key": "value",
+      "key": "value"
+    },
+    "key": {  
+      "key": "value",
+      "key": "value",
+      "key": "value",
+      "key": "value"
+    }
+  }
+}
+
+
+**Text :** 
