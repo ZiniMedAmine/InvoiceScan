@@ -1,10 +1,10 @@
 import json
 from django.conf import settings
+from django.contrib import messages
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from django.http import HttpRequest
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest, HttpRequest
 from .forms import UploadFileForm
-from .models import Id
+from .models import Img, ExportedFile
 from .etl import parse_text_to_csv, write_to_csv ,  json_to_text
 from .utils import preprocess_image, perform_ocr, organize_data
 import cv2
@@ -22,10 +22,14 @@ def home(request):
     results = []
 
     files = request.FILES.getlist('files')
+
+    if not files:
+        return HttpResponseBadRequest("No files were uploaded.")
+    
     for uploaded_file in files:
-      id_image = Id.objects.create(doc=uploaded_file)
+      id_image = Img.objects.create(ref=uploaded_file)
       id_image.save()
-      image_path = id_image.doc.path
+      image_path = id_image.ref.path
 
       preprocessed_image = preprocess_image(image_path)
       preprocessed_image_filename = f"preprocessed_{id_image.pk}.jpg"
@@ -34,10 +38,9 @@ def home(request):
 
       extracted_text = perform_ocr(preprocessed_image)
       text = organize_data(extracted_text)
-      print(text)
 
-      # Extracting image name and document type
-      image_name = id_image.doc.name.split('/')[-1]
+      # Extracting image name and refument type
+      image_name = id_image.ref.name.split('/')[-1]
       document_type = text.split('\n')[0].replace('Document Type', '')
       document_type = re.sub(r'[^a-zA-Z\s]', '', document_type)
       
@@ -90,7 +93,7 @@ def save_edited_text(request):
 
         return JsonResponse({'status': 'success'})  # Send success response
     else:
-        return JsonResponse({'status': 'error'}, status=400)  # Handle invalid requests
+        return JsonResponse({'status': 'error'}, status=400)  # Handle invalImg requests
 
 
 def export_data(request):
@@ -106,47 +109,44 @@ def export_data(request):
         with zipfile.ZipFile(os.path.join(output_directory, 'exported_data.zip'), 'w') as zipf:
             for format in formats:
                 if format == 'json':
-                    # Add JSON files to the zip
                     json_files = [f for f in os.listdir(output_directory) if f.endswith('.json')]
                     for file in json_files:
                         json_filename = os.path.splitext(file)[0] + '.json'
                         zipf.write(os.path.join(output_directory, file), arcname=json_filename)
-                        exported_files.append(json_filename)
+                        exported_files.append((json_filename, 'json'))
 
                 elif format == 'csv':
-                    # Add CSV files to the zip
                     csv_files = [f for f in os.listdir(output_directory) if f.endswith('.csv')]
                     for file in csv_files:
                         zipf.write(os.path.join(output_directory, file), file)
-                        exported_files.append(file)
-                
+                        exported_files.append((file, 'csv'))
+
                 elif format == 'word':
-                    # Add JSON files to the zip
                     word_files = [f for f in os.listdir(output_directory) if f.endswith('.txt')]
                     for file in word_files:
                         word_filename = os.path.splitext(file)[0] + '.doc'
                         zipf.write(os.path.join(output_directory, file), arcname=word_filename)
-                        exported_files.append(word_filename)
+                        exported_files.append((word_filename, 'word'))
 
             zipf.close()
 
-        
+        # Save information about exported files to the database
+        for filename, file_format in exported_files:
+            exported_file = ExportedFile(file=os.path.join(history_directory, filename), format=file_format)
+            exported_file.save()
 
         # Return a response with the zip file
         with open(os.path.join(output_directory, 'exported_data.zip'), 'rb') as f:
             response = HttpResponse(f, content_type='application/zip')
             response['Content-Disposition'] = 'attachment; filename=exported_data.zip'
-        
+
+        # Move files to the history directory
         for filename in os.listdir(output_directory):
-          # Construct the full source and destination file paths
-          source_path = os.path.join(output_directory, filename)
-          destination_path = os.path.join(history_directory, filename)
-          
-          # Move the file directly (assuming only files in source directory)
-          shutil.move(source_path, destination_path)
+            source_path = os.path.join(output_directory, filename)
+            destination_path = os.path.join(history_directory, filename)
+            shutil.move(source_path, destination_path)
 
         return response
-        
-        
+
     else:
         return JsonResponse({'status': 'error'}, status=400)

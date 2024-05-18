@@ -58,11 +58,11 @@
 <script src="{% static 'css/bootstrap-5.3.3/js/bootstrap.bundle.min.js' %}"></script>
 
 <script>
-  
-  const results = {{ results|safe }};
-  const editedText = [];
-  
-  document.getElementById('edit-button').addEventListener('click', function() {
+  document.getElementById('edit-button').addEventListener('click', editData);
+  document.getElementById('save-button').addEventListener('click', submitData);
+  document.getElementById('ExportBTN').addEventListener('click', exportData);
+
+  function editData() {
     var textElements = document.querySelectorAll('.result-text');
     var textareaElements = document.querySelectorAll('.result-textarea');
     
@@ -72,17 +72,13 @@
       textareaElements[i].value = textElements[i].textContent;
     }
     textareaElements[0].focus();
-  
-    // Reset editedText array when clicking edit
-    editedText.length = 0;
-  });
-  
+  }
 
-  document.getElementById('save-button').addEventListener('click', function() {
+  function submitData() {
     const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    
-    editedText.length = 0;
-  
+    var editedText = [];
+    var results = {{ results|safe }}; // Define results variable here
+
     var textElements = document.querySelectorAll('.result-text');
     var textareaElements = document.querySelectorAll('.result-textarea');
     
@@ -138,64 +134,64 @@
     .catch(error => {
       console.error('Error sending data:', error);
     });
-  });
+  }
 
-    document.getElementById('ExportBTN').addEventListener('click', function() {
-      const exportJSON = document.getElementById('export-json').checked;
-      const exportCSV = document.getElementById('export-csv').checked;
-      const exportWORD = document.getElementById('export-word').checked;
+  function exportData() {
+    const exportJSON = document.getElementById('export-json').checked;
+    const exportCSV = document.getElementById('export-csv').checked;
+    const exportWORD = document.getElementById('export-word').checked;
 
-      if (!exportJSON && !exportCSV && !exportWORD) {
-        alert('Please select at least one format to export.');
-        return;
+    if (!exportJSON && !exportCSV && !exportWORD) {
+      alert('Please select at least one format to export.');
+      return;
+    }
+
+    const selectedFormats = [];
+    if (exportJSON) {
+      selectedFormats.push('json');
+    }
+    if (exportCSV) {
+      selectedFormats.push('csv');
+    }
+    if (exportWORD) {
+      selectedFormats.push('word');
+    }
+    
+    const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch('/invoiceScanApp/export/', {
+      method: 'POST',
+      body: JSON.stringify({ formats: selectedFormats }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken
       }
-  
-      const selectedFormats = [];
-      if (exportJSON) {
-        selectedFormats.push('json');
+    })
+    .then(response => response.blob())
+    .then(blob => {
+      const filename = 'exported_data.zip'; // Change the filename as needed
+      if (blob.size > 0) {
+        // Create a blob URL for the downloaded file
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } else {
+        console.error('Error: Empty response received for export.');
       }
-      if (exportCSV) {
-        selectedFormats.push('csv');
-      }
-      if (exportWORD) {
-        selectedFormats.push('word');
-      }
-      
-  
-      const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-  
-      fetch('/invoiceScanApp/export/', {
-        method: 'POST',
-        body: JSON.stringify({ formats: selectedFormats }),
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRFToken': csrftoken
-        }
-      })
-      .then(response => response.blob())
-      .then(blob => {
-        const filename = 'exported_data.zip'; // Change the filename as needed
-        if (blob.size > 0) {
-          // Create a blob URL for the downloaded file
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = filename;
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-        } else {
-          console.error('Error: Empty response received for export.');
-        }
-      })
-      .catch(error => {
-        console.error('Error exporting data:', error);
-      });
-      const exportContainer = document.querySelector('.exportContainer');
-      const exportButton = document.getElementById('ExportBTN');
-      exportContainer.style.display = 'none';
-      exportButton.style.display = 'none';
-    });  
+    })
+    .catch(error => {
+      console.error('Error exporting data:', error);
+    });
+
+    const exportContainer = document.querySelector('.exportContainer');
+    const exportButton = document.getElementById('ExportBTN');
+    exportContainer.style.display = 'none';
+    exportButton.style.display = 'none';
+  }
 
 </script>
 </html>

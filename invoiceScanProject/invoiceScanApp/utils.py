@@ -2,14 +2,11 @@ import cv2
 import pytesseract
 import numpy as np
 import re
-from autocorrect import Speller
-import pyarabic.araby as araby
-import langid
 import google.generativeai as genai
 from django.conf import settings
 import time
 import os
-from .global_variables import tunisian_names, universities, clubs, tech_words, companies, cities
+
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 #Gemini setup and configuration
@@ -23,7 +20,7 @@ def preprocess_image(image_path):
     image = cv2.imread(image_path)
     height, width, _ = image.shape
 
-    def auto_resize(image_path, target_width):
+    def auto_resize(target_width):
 
         height, width, _ = image.shape
 
@@ -37,7 +34,7 @@ def preprocess_image(image_path):
 
     
 
-    Resizedimg=auto_resize(image_path,width*2)
+    Resizedimg=auto_resize(width*2)
 
     gray = cv2.cvtColor(Resizedimg, cv2.COLOR_BGR2GRAY)
 
@@ -138,32 +135,6 @@ def perform_ocr(preprocessed_image):
     start_time = time.time()
 
     text = pytesseract.image_to_string(preprocessed_image, config='--psm 12 --oem 1', lang='eng+french+ara')
-
-    # # Exclude specific words from spell checking
-    # words = text.split()
-    # corrected_words = []
-    # allowed_languages = {'en', 'fr', 'ar'}
-    # excluded_words = tunisian_names | universities | clubs | tech_words | companies | cities 
-    # for word in words:
-    #     detected_lang, _ = langid.classify(word)
-    #     detected_lang = detected_lang if detected_lang in ('en', 'fr', 'ar') else 'fr'
-    #     lang_code = detected_lang[:2].lower()
-    #     if lang_code in allowed_languages:
-    #         if lang_code == 'ar':
-    #             #spell = Speller(lang='ar')
-    #             print("mezelt mal9itch solu lel aarbi (possible solutions : symspellpy + ar dictionary || autocorrect + new lang AR )")
-    #             #corrected_word = spell(word)
-    #             corrected_word = word
-    #         else:
-    #             if (word.lower() in excluded_words or ("@" in word.lower() and "." in word.lower())):
-    #                 corrected_word = word
-    #             else:
-    #                 spell = Speller(lang=lang_code)
-    #                 corrected_word = spell(word)
-
-    #         corrected_words.append(corrected_word)
-
-    # corrected_text = " ".join(corrected_words)
     #hedha ynahi l line breaks l zeydin
     cleaned_text = text.strip().replace("\n\n", "\n")
     #w hedha ynahi l espacet li wra baadhhom
@@ -179,7 +150,7 @@ def perform_ocr(preprocessed_image):
 def organize_data(corrected_text):
     start_time = time.time()
 
-    app_dir = os.path.dirname(os.path.abspath(__file__))  # Get app directory path
+    app_dir = os.path.dirname(os.path.abspath(__file__))
     prompt_file_path = os.path.join(app_dir, 'prompt.txt')
 
     with open(prompt_file_path, 'r', encoding='utf-8') as prompt_file:
