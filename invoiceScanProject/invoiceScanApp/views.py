@@ -1,8 +1,7 @@
 import json
 from django.conf import settings
-from django.contrib import messages
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest, HttpRequest
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from .forms import UploadFileForm
 from .models import Img, ExportedFile
 from .etl import parse_text_to_csv, write_to_csv ,  json_to_text
