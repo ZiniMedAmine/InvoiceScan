@@ -143,8 +143,8 @@ def perform_ocr(preprocessed_image):
     cleaned_text = re.sub(r"[^\w\s\-&\.\/%@+]", "", cleaned_text)
 
     end_time = time.time()
-    print(cleaned_text)
     print("Performing OCR took: {:.2f} seconds".format(end_time - start_time))
+    print(cleaned_text)
     return cleaned_text
 
 def organize_data(corrected_text):
@@ -164,4 +164,3 @@ def organize_data(corrected_text):
 
 
     return data.text
-

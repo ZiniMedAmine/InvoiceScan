@@ -16,50 +16,55 @@ import zipfile
 results = []
 
 def home(request):
-  if request.method == 'POST':
-    form = UploadFileForm(request.POST, request.FILES)
-    results = []
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        files = request.FILES.getlist('files')
 
-    files = request.FILES.getlist('files')
+        if not files:
+            return HttpResponseBadRequest("No files were uploaded.")
 
-    if not files:
-        return HttpResponseBadRequest("No files were uploaded.")
-    
-    for uploaded_file in files:
-      id_image = Img.objects.create(ref=uploaded_file)
-      id_image.save()
-      image_path = id_image.ref.path
+        results = []
+        for uploaded_file in files:
+            id_image = Img.objects.create(ref=uploaded_file)
+            id_image.save()
+            image_path = id_image.ref.path
 
-      preprocessed_image = preprocess_image(image_path)
-      preprocessed_image_filename = f"preprocessed_{id_image.pk}.jpg"
-      preprocessed_image_path = os.path.join(settings.MEDIA_ROOT, preprocessed_image_filename)
-      cv2.imwrite(preprocessed_image_path, preprocessed_image)
+            preprocessed_image = preprocess_image(image_path)
+            preprocessed_image_filename = f"preprocessed_{id_image.pk}.jpg"
+            preprocessed_image_path = os.path.join(settings.MEDIA_ROOT, 'Preprocessed', preprocessed_image_filename)
+            cv2.imwrite(preprocessed_image_path, preprocessed_image)
 
-      extracted_text = perform_ocr(preprocessed_image)
-      text = organize_data(extracted_text)
+            extracted_text = perform_ocr(preprocessed_image)
+            organized_text = organize_data(extracted_text)
 
-      # Extracting image name and refument type
-      image_name = id_image.ref.name.split('/')[-1]
-      document_type = text.split('\n')[0].replace('Document Type', '')
-      document_type = re.sub(r'[^a-zA-Z\s]', '', document_type)
-      
-      lines = text.splitlines()  # Split text into a list of lines
-      if lines:  # Check if there are any lines (handle empty text)
-        text = '\n'.join(lines[2:-1])  # Join lines from index 1 (excluding first) to -1 (excluding last)
-      
-      text = '\n'.join(text.split('\n')[1:])
+            # Extracting image name and document type
+            image_name = id_image.ref.name.split('/')[-1]
+            document_type = organized_text.split('\n')[0].replace('Document Type', '')
+            document_type = re.sub(r'[^a-zA-Z\s]', '', document_type)
 
-      results.append({
-          'image_name': image_name,
-          'document_type': document_type,
-          'text': text,  # Store initial text for comparison later
-      })
+            lines = organized_text.splitlines()
+            if lines:  
+                organized_text = '\n'.join(lines[2:-1])
+            
+            organized_text = '\n'.join(organized_text.split('\n')[1:])
 
-    return render(request, "selectFormat.html", {'results': results})
-  else:
-    form = UploadFileForm()
+            # Save preprocessed image and extracted text to the database
+            id_image.preprocessed_ref = f'preprocessed/{preprocessed_image_filename}'
+            id_image.extracted_text = organized_text
+            id_image.save()
 
-  return render(request, "home.html", {'form': form})
+            results.append({
+                'image_name': image_name,
+                'document_type': document_type,
+                'text': organized_text,
+            })
+
+        return render(request, "selectFormat.html", {'results': results})
+    else:
+        form = UploadFileForm()
+
+    return render(request, "home.html", {'form': form})
+
 
 
 def save_edited_text(request):
@@ -94,58 +99,49 @@ def save_edited_text(request):
     else:
         return JsonResponse({'status': 'error'}, status=400)  # Handle invalImg requests
 
-
 def export_data(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         formats = data.get('formats', [])
 
-        output_directory = settings.OUTPUT_ROOT
-        history_directory = settings.HISTORY_ROOT
-
         exported_files = []
+        for format in formats:
+            if format == 'json':
+                matching_files = [f for f in os.listdir(settings.OUTPUT_ROOT) if f.endswith('.json')]
+            elif format == 'csv':
+                matching_files = [f for f in os.listdir(settings.OUTPUT_ROOT) if f.endswith('.csv')]
+            elif format == 'word':
+                matching_files = [f for f in os.listdir(settings.OUTPUT_ROOT) if f.endswith('.txt')]
 
-        with zipfile.ZipFile(os.path.join(output_directory, 'exported_data.zip'), 'w') as zipf:
-            for format in formats:
-                if format == 'json':
-                    json_files = [f for f in os.listdir(output_directory) if f.endswith('.json')]
-                    for file in json_files:
-                        json_filename = os.path.splitext(file)[0] + '.json'
-                        zipf.write(os.path.join(output_directory, file), arcname=json_filename)
-                        exported_files.append((json_filename, 'json'))
+            for file in matching_files:
+                source_path = os.path.join(settings.OUTPUT_ROOT, file)
+                destination_path = os.path.join(settings.MEDIA_ROOT, 'History', file)
+                os.makedirs(os.path.dirname(destination_path), exist_ok=True)
+                shutil.move(source_path, destination_path)
 
-                elif format == 'csv':
-                    csv_files = [f for f in os.listdir(output_directory) if f.endswith('.csv')]
-                    for file in csv_files:
-                        zipf.write(os.path.join(output_directory, file), file)
-                        exported_files.append((file, 'csv'))
+                # Extract image name from file name
+                image_name, _ = os.path.splitext(file)
 
-                elif format == 'word':
-                    word_files = [f for f in os.listdir(output_directory) if f.endswith('.txt')]
-                    for file in word_files:
-                        word_filename = os.path.splitext(file)[0] + '.doc'
-                        zipf.write(os.path.join(output_directory, file), arcname=word_filename)
-                        exported_files.append((word_filename, 'word'))
+                # Get the corresponding Img instance using the image name
+                try:
+                    img_instance = Img.objects.get(ref__contains=image_name)
+                except Img.DoesNotExist:
+                    img_instance = None
 
-            zipf.close()
+                # Create ExportedFile instance linked to Img instance
+                exported_file = ExportedFile(format=format, file=destination_path, img_id=img_instance)
+                exported_file.save()
+                exported_files.append((file, format))
 
-        # Save information about exported files to the database
-        for filename, file_format in exported_files:
-            exported_file = ExportedFile(file=os.path.join(history_directory, filename), format=file_format)
-            exported_file.save()
+        zip_file_path = os.path.join(settings.OUTPUT_ROOT, 'exported_files.zip')
+        with zipfile.ZipFile(zip_file_path, 'w') as zipf:
+            for filename, file_format in exported_files:
+                zipf.write(os.path.join(settings.MEDIA_ROOT, 'History', filename), arcname=filename)
 
-        # Return a response with the zip file
-        with open(os.path.join(output_directory, 'exported_data.zip'), 'rb') as f:
+        with open(zip_file_path, 'rb') as f:
             response = HttpResponse(f, content_type='application/zip')
-            response['Content-Disposition'] = 'attachment; filename=exported_data.zip'
-
-        # Move files to the history directory
-        for filename in os.listdir(output_directory):
-            source_path = os.path.join(output_directory, filename)
-            destination_path = os.path.join(history_directory, filename)
-            shutil.move(source_path, destination_path)
+            response['Content-Disposition'] = 'attachment; filename=exported_files.zip'
 
         return response
-
     else:
         return JsonResponse({'status': 'error'}, status=400)

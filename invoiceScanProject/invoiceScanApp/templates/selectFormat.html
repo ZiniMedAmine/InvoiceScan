@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="{% static 'css/bootstrap-5.3.3/css/bootstrap.min.css' %}">
   <link rel="stylesheet" href="{% static 'fonts/hind_mysuru/style.css' %}">
   <link rel="stylesheet" href="{% static 'css/SelectFormat.css' %}">
+  <link rel="icon" type="image/x-icon" href="{% static 'images/InvoiceScanLogoMark.png' %}"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsonlint/1.6.0/jsonlint.min.js"></script> <!-- Include jsonlint -->
 </head>
 <body>
 
@@ -27,7 +29,7 @@
       </tr>
       <tr>
         <pre class="result-text">{{ result.text }}</pre>
-        <textarea class="result-textarea form-control" rows ="{{ result.text.strip.splitlines|length }}" style="display: none;">{{ result.text }}</textarea>
+        <textarea class="result-textarea form-control" rows="{{ result.text.strip.splitlines|length }}" style="display: none;">{{ result.text }}</textarea>
         <br/>
       </tr>
       {% endfor %}
@@ -72,35 +74,53 @@
       textareaElements[i].value = textElements[i].textContent;
     }
     textareaElements[0].focus();
+    const exportContainer = document.querySelector('.exportContainer');
+    const exportButton = document.getElementById('ExportBTN');
+    exportContainer.style.display = 'none';
+    exportButton.style.display = 'none';
   }
 
   function submitData() {
     const csrftoken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     var editedText = [];
     var results = {{ results|safe }}; // Define results variable here
-
     var textElements = document.querySelectorAll('.result-text');
     var textareaElements = document.querySelectorAll('.result-textarea');
     
     for (var i = 0; i < textElements.length; i++) {
+      const textValue = textareaElements[i].value;
+      let errorMessage = "Invalid JSON Format";
+
+      try {
+        // Use jsonlint to parse the JSON, catching potential errors
+        jsonlint.parse(textValue);
+      } catch (error) {
+        // Extract detailed error message from jsonlint
+        let errorDetails = error.message;
+
+        // Craft a more informative error message
+        errorMessage = `Syntax error: ${errorDetails}`;
+
+        alert(errorMessage);
+        return; // Exit the loop and prevent further processing
+      }
+
       textElements[i].style.display = 'block';
       textareaElements[i].style.display = 'none';
-      // Update textElements with the value from textareaElements
       textElements[i].textContent = textareaElements[i].value;
-      textElements[i].value = textareaElements[i].value;  // Added to ensure updated values
-      
+
       let imageName = results[i].image_name;
       let documentType = results[i].document_type;
-      
+
       editedText.push({
         image_name: imageName,
         document_type: documentType,
-        text: textElements[i].value  // Use textElements[i].value
+        text: textElements[i].textContent
       });
     }
-    
-    console.log(editedText)
-    
+
+    console.log(editedText);
+
     fetch('/invoiceScanApp/save_edited_text/', {
       method: 'POST',
       body: JSON.stringify(editedText),
@@ -114,7 +134,6 @@
       if (data.status === 'success') {
         console.log('Edited text saved successfully!');
         
-        // Update display after saving and show export section
         var textElements = document.querySelectorAll('.result-text');
         var textareaElements = document.querySelectorAll('.result-textarea');
         for (var i = 0; i < textElements.length; i++) {
@@ -169,9 +188,8 @@
     })
     .then(response => response.blob())
     .then(blob => {
-      const filename = 'exported_data.zip'; // Change the filename as needed
+      const filename = 'exported_data.zip';
       if (blob.size > 0) {
-        // Create a blob URL for the downloaded file
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -192,6 +210,5 @@
     exportContainer.style.display = 'none';
     exportButton.style.display = 'none';
   }
-
 </script>
 </html>

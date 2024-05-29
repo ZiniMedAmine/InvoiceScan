@@ -133,10 +133,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'Preprocessed')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-OUTPUT_ROOT = os.path.join(BASE_DIR, 'Results')
+MEDIA_URL = '/media/'
 
-HISTORY_ROOT = os.path.join(BASE_DIR, 'History')
+OUTPUT_ROOT = os.path.join(BASE_DIR, 'Exportable')
 
 GOOGLE_API_KEY = "AIzaSyAvjib2DZH90vioDaM7guHqdQvvDIl1dxw"
+

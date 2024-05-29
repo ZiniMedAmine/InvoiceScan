@@ -29,7 +29,28 @@
     - Follow the **Output structure** precisely without any extra.
     - Use Only JSON OBJECTS, NEVER use LISTS or any other thing.
     - Use all the types of JSON values except NULL and LISTS.
-    - Make the response pure valid json ready to be directly used. """ DO NOT ADD ANYTHING OUT OF PURE VALID JSON STRUCTURE """
+    - Make the response pure valid JSON ready to be directly used. : """ DO NOT ADD ANYTHING OUT OF PURE VALID JSON STRUCTURE """ 
+      -@A valid JSON text is a text which follows these rules :
+        -Data is in name/value pairs.
+        -Name/value pairs are written as "name": value.
+        -Each name/value pair in an object or each value in an array is separated by a comma.
+        -Objects are encapsulated within curly brackets {}.
+        -An empty object is represented by {}.
+        -Arrays are encapsulated within square brackets [].
+        -An empty array is represented by [].
+        -Object keys (names) must be strings enclosed in double quotes.
+        -Each key within an object must be unique.
+        -String values must be enclosed in double quotes.
+        -Boolean values are represented by the literals true or false (in lowercase).
+        -Numbers are represented without quotes and can be integers or floating-point values.
+        -Numbers must not have leading zeros (e.g., 0, 42, 3.14, but not 042).
+        -Special characters in strings must be escaped with a backslash \ (e.g., ", \, /, \b, \f, \n, \r, \t, \u followed by four hex digits).
+        -Null values are represented by the literal null (in lowercase).
+        -Dates should be represented as strings since JSON does not natively support date formats.
+        -Each member of an object or array value must be followed by a comma, except for the last one.
+        -Whitespace (spaces, tabs, line breaks) is allowed around elements but not within string literals, names, or values.
+        -There should be no trailing commas in objects or arrays.
+
     - If the tesseract text is too disordered :
       - Add contextual meaning to the data and organize it in a coherent way.
     - Delete any arabic word.

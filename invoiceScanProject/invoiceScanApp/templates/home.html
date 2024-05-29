@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="{% static 'fonts/hind_mysuru/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/HomeStyle.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/InvoiceScanLogoMark.png' %}" />
 
 </head>
 <body>
@@ -16,14 +17,50 @@
         <h3 id="slogan"> Your Invoice Management Superpower </h3>
         <p id="description">Welcome ! Our innovative application is designed to effortlessly digitize and extract data from your invoices and receipts. Using advanced Optical Character Recognition (OCR) technology powered by Gemini, InvoiceScan+ automatically identifies key information from your invoice images. Simply upload your invoice, and within moments, our user-friendly interface allows you to review and edit the extracted data before exporting it in your preferred format, making managing your expenses easier than ever before. Try InvoiceScan+ today and experience the convenience of streamlined invoice processing!</p>
         <div id="scrollButton"></div>
-        </header>
+    </header>
 
     <div class="GuideContainer">
         <h1 id="guideTitle">Guide</h1>
+        <div class="Guide_Icons_Container">
+            <div class="Guide_Icons_Container_Top">
+                <div class="Guide_Icon_Text_Container GTC1">
+                    <div class="Guide_Icon_Container icon_1">
+                        <img src="{% static 'images/Upload.svg' %}">
+                    </div>
+                    <h2 class="Guide_text">Import your <br/></h2><h2 class="Guide_text_1"> images</h2>
+                </div>
+                <div class="Guide_Icon_Text_Container GTC2">
+                    <div class="Guide_Icon_Container icon_2">
+                        <img src="{% static 'images/Edit.svg' %}">
+                    </div>
+                    <h2 class="Guide_text">Edit your <br/></h2> <h2 class="Guide_text_1"> data (optional)</h2>
+                </div>
+                <div class="Guide_Icon_Text_Container GTC3">
+                    <div class="Guide_Icon_Container icon_3">
+                        <img src="{% static 'images/Submit.svg' %}">
+                    </div>
+                    <h2 class="Guide_text">Submit your <br/></h2> <h2 class="Guide_text_1"> data </h2>
+                </div>
+            </div>
+            <div class="Guide_Icons_Container_Bot">
+                <div class="Guide_Icon_Text_Container GTC4">
+                    <div class="Guide_Icon_Container icon_4">
+                        <img src="{% static 'images/Select.svg' %}">
+                    </div>
+                    <h2 class="Guide_text">Select export <br/> </h2> <h2 class="Guide_text_1"> formats</h2>
+                </div>
+                <div class="Guide_Icon_Text_Container GTC5">
+                    <div class="Guide_Icon_Container icon_5">
+                        <img src="{% static 'images/Export.svg' %}">
+                    </div>
+                    <h2 class="Guide_text">Export <br/></h2><h2 class="Guide_text_1"> your data</h2>
+                </div>
+            </div>
+        </div>
     </div>
 
     <section class="UploadContainer" id="UploadSection">
-        <form action="{% url "home" %}" method="post" enctype="multipart/form-data">
+        <form action="{% url "home" %}" method="post" enctype="multipart/form-data" id="uploadForm">
             {% csrf_token %}
             <div class="upload-container">
                 <h1 id="uploadTitle"> Upload Your Images </h1>
@@ -38,6 +75,8 @@
             </div>
         </form>
     </section>
+
+
     <footer>
         <h1 id="footerTitle"> Contact Us</h1>
     </footer>
@@ -48,6 +87,48 @@
               behavior: 'smooth'
             });
           });
+
+          document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            var fileInput = document.getElementById('file-upload');
+            var multipleFileInput = document.getElementById('files-upload');
+
+            var allowedExtensions = ['.xbm', '.tif', '.jfif', '.ico', '.tiff', '.gif', '.svg', '.jpeg', '.svgz', '.jpg', '.webp', '.png', '.bmp', '.pjp', '.apng', '.pjeg', '.avif'];
+
+            function checkFileExtension(file) {
+                var fileName = file.name.toLowerCase();
+                return allowedExtensions.some(function(extension) {
+                    return fileName.endsWith(extension);
+                });
+            }
+
+            function validateFiles(input) {
+                var files = input.files;
+                for (var i = 0; i < files.length; i++) {
+                    if (!checkFileExtension(files[i])) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            if (!fileInput.value && !multipleFileInput.value) {
+                alert('Please upload at least one file.');
+                event.preventDefault();
+                return;
+            }
+
+            if (fileInput.files.length > 0 && !validateFiles(fileInput)) {
+                alert('Invalid file format. Please upload files in the following formats: ' + allowedExtensions.join(', '));
+                event.preventDefault();
+                return;
+            }
+
+            if (multipleFileInput.files.length > 0 && !validateFiles(multipleFileInput)) {
+                alert('Invalid file format. Please upload files in the following formats: ' + allowedExtensions.join(', '));
+                event.preventDefault();
+                return;
+            }
+        });
     </script>
 </body>
 </html>

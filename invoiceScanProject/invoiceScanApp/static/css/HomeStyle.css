@@ -56,9 +56,6 @@ body {
   }
 
 
-
-
-
 #description{
     color: #EAEAEA;
     text-align: center;
@@ -71,22 +68,78 @@ body {
 }
 
 
+
+
+
+
 .TopContainer{
     display: flex;
     flex-direction: column;
-    align-items: center; 
+    align-items: center;
     justify-content: space-between;
 }
 
 .GuideContainer{
     width: 99vw;
-    height: 1080px;
+    height: 125vh;
     margin-top: 5vh;
+    padding-top: 10px;    
     display: flex;
+    flex-direction: column;
     justify-content: center;
     border-radius: 13.625rem 13.625rem 0rem 0rem;
     background: #EAEAEA;    
 }
+.Guide_Icons_Container{
+    display: flex;
+    flex-direction: column;
+    margin-left:12vw;
+    justify-content: center;
+}
+.Guide_Icons_Container_Top{
+    display: flex;
+    flex-direction: row;
+    margin-top: 1vh ;
+    width: 80vw;
+    justify-content: center;
+}
+.Guide_Icons_Container_Bot{
+    display: flex;
+    flex-direction: row;
+    margin-top: 3vh;
+    width: 80vw;
+    justify-content: center;
+}
+.Guide_Icon_Container{
+    display: flex;
+    width: 15vw;
+    height: 15vw;
+    border-radius:50%;
+    background-color: #222629;
+    align-items: center;
+    justify-content: center;
+}
+.Guide_Icon_Text_Container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5vw;
+    margin-right: 10vw;
+}
+.Guide_text{
+    font-family: 'Helvetica';
+    font-weight: bold;
+    font-size: 35px;
+}
+.Guide_text_1{
+    font-family: 'Helvetica';
+    font-weight: bold;
+    font-size: 35px;
+    margin-top: -18px;
+}
+
+
 #guideTitle{
     color: #222629;
     text-align: center;
