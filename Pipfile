@@ -4,11 +4,13 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "==5.0.2"
+django = "~=5.0"
+pillow = "*"
+numpy = "*"
 opencv-python = "*"
 pytesseract = "*"
-tesseract = "*"
-autocorrect = "*"
+google-genai = "*"
+python-docx = "*"
 
 [dev-packages]
 

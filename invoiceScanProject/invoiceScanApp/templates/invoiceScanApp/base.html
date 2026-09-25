@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}InvoiceScan+{% endblock %}</title>
+  <link rel="icon" type="image/png" href="{% static 'images/InvoiceScanLogoMark.png' %}">
+  <link rel="stylesheet" href="{% static 'fonts/hind_mysuru/style.css' %}">
+  {% block stylesheets %}{% endblock %}
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  {% block page_stylesheet %}{% endblock %}
+</head>
+<body>
+  <header class="site-header">
+    <a href="{% url 'home' %}"><img src="{% static 'images/Logo.png' %}" alt="InvoiceScan+" class="logo"></a>
+    <p class="slogan">Your Invoice Management Superpower</p>
+    {% block header_extra %}{% endblock %}
+  </header>
+
+  {% block content %}{% endblock %}
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

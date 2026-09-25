@@ -1,13 +1,24 @@
 from django.contrib import admin
-from .models import Img, ExportedFile
 
-# Register your models here.
-class ImgAdmin(admin.ModelAdmin):
-  list_display = ['ref','preprocessed_ref','extracted_text']
+from .models import ExportedFile, ScannedDocument
 
-admin.site.register(Img, ImgAdmin)
 
+class ExportedFileInline(admin.TabularInline):
+    model = ExportedFile
+    extra = 0
+    readonly_fields = ["file", "format", "exported_at"]
+
+
+@admin.register(ScannedDocument)
+class ScannedDocumentAdmin(admin.ModelAdmin):
+    list_display = ["id", "filename", "document_type", "uploaded_at"]
+    list_filter = ["document_type"]
+    search_fields = ["image", "document_type", "extracted_text"]
+    readonly_fields = ["uploaded_at"]
+    inlines = [ExportedFileInline]
+
+
+@admin.register(ExportedFile)
 class ExportedFileAdmin(admin.ModelAdmin):
-  list_display = ['file', 'format', 'exported_at','img_id'] 
-
-admin.site.register(ExportedFile, ExportedFileAdmin)
+    list_display = ["file", "format", "document", "exported_at"]
+    list_filter = ["format"]

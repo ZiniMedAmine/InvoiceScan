@@ -1,0 +1,58 @@
+/* Styles shared by every page. */
+
+:root {
+  --color-dark: #222629;
+  --color-light: #EAEAEA;
+  --color-white: #FFFFFF;
+  --color-accent: #86C232;
+  --color-accent-dark: #61892F;
+  --color-error: #D64545;
+  --font-title: Helvetica, Arial, sans-serif;
+  --font-thin: "Helvetica Neue UltraLight", Helvetica, Arial, sans-serif;
+  --font-body: "Hind Mysuru Light", Helvetica, Arial, sans-serif;
+  --transition: 0.2s;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  background-color: var(--color-dark);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* --- Header ---------------------------------------------------------------- */
+
+.site-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: block;
+  width: 35vw;
+  margin-top: 5vh;
+}
+
+.slogan {
+  margin: 1vh 0 0;
+  color: var(--color-white);
+  text-align: center;
+  font-family: var(--font-thin);
+  font-size: 2.3vw;
+  font-weight: 100;
+  letter-spacing: 1.2vw;
+}

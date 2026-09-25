@@ -1,0 +1,51 @@
+{% extends "invoiceScanApp/base.html" %}
+{% load static %}
+
+{% block title %}Review your data · InvoiceScan+{% endblock %}
+
+{% block stylesheets %}<link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">{% endblock %}
+{% block page_stylesheet %}<link rel="stylesheet" href="{% static 'css/review.css' %}">{% endblock %}
+
+{% block content %}
+  <main class="review" id="review"
+        data-save-url="{% url 'save_edited_text' %}"
+        data-export-url="{% url 'export_data' %}">
+    {% csrf_token %}
+
+    <div class="documents">
+      {% for document in documents %}
+        <article class="document" data-id="{{ document.pk }}">
+          <h2 class="document__heading">Image Name: {{ document.filename }}</h2>
+          <h2 class="document__heading">Document Type: {{ document.document_type }}</h2>
+          <pre class="document__text">{{ document.extracted_text }}</pre>
+          <textarea class="document__editor form-control" rows="{{ document.extracted_text.splitlines|length }}"
+                    aria-label="Extracted data of {{ document.filename }}" hidden>{{ document.extracted_text }}</textarea>
+        </article>
+      {% endfor %}
+    </div>
+
+    <div class="actions">
+      <button type="button" class="action-button" id="edit-button">Edit Data</button>
+      <button type="button" class="action-button" id="save-button">Submit</button>
+    </div>
+
+    <section class="export" id="export-section" hidden>
+      <h2 class="export__title">Select Export Format:</h2>
+      <label class="export__option">
+        <input type="checkbox" class="form-check-input" name="format" value="json"> JSON
+      </label>
+      <label class="export__option">
+        <input type="checkbox" class="form-check-input" name="format" value="csv"> CSV
+      </label>
+      <label class="export__option">
+        <input type="checkbox" class="form-check-input" name="format" value="word"> Word
+      </label>
+      <button type="button" class="action-button" id="export-button">Export</button>
+    </section>
+  </main>
+{% endblock %}
+
+{% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsonlint/1.6.0/jsonlint.min.js"></script>
+  <script src="{% static 'js/review.js' %}"></script>
+{% endblock %}

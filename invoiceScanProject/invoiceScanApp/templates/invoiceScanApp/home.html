@@ -1,0 +1,82 @@
+{% extends "invoiceScanApp/base.html" %}
+{% load static %}
+
+{% block page_stylesheet %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
+
+{% block header_extra %}
+  <p class="intro">
+    Welcome! InvoiceScan+ digitizes your invoices and receipts and extracts their data for you.
+    It combines image preprocessing, Tesseract OCR and Google Gemini to identify the document
+    type and its key information. Upload your images, review and edit the extracted data, then
+    export it in your preferred format: managing your expenses has never been easier.
+  </p>
+  <a href="#upload" class="scroll-hint" aria-label="Go to the upload section"></a>
+{% endblock %}
+
+{% block content %}
+  <section class="guide">
+    <h1 class="section-title">Guide</h1>
+    <ol class="guide-row">
+      <li class="guide-step">
+        <span class="guide-step__icon"><img src="{% static 'images/Upload.svg' %}" alt=""></span>
+        <p class="guide-step__label">Import your<br>images</p>
+      </li>
+      <li class="guide-step">
+        <span class="guide-step__icon"><img src="{% static 'images/Edit.svg' %}" alt=""></span>
+        <p class="guide-step__label">Edit your<br>data (optional)</p>
+      </li>
+      <li class="guide-step">
+        <span class="guide-step__icon"><img src="{% static 'images/Submit.svg' %}" alt=""></span>
+        <p class="guide-step__label">Submit your<br>data</p>
+      </li>
+    </ol>
+    <ol class="guide-row" start="4">
+      <li class="guide-step">
+        <span class="guide-step__icon"><img src="{% static 'images/Select.svg' %}" alt=""></span>
+        <p class="guide-step__label">Select export<br>formats</p>
+      </li>
+      <li class="guide-step">
+        <span class="guide-step__icon"><img src="{% static 'images/Export.svg' %}" alt=""></span>
+        <p class="guide-step__label">Export<br>your data</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="upload" id="upload">
+    <h2 class="upload__title">Upload Your Images</h2>
+
+    <form action="{% url 'home' %}" method="post" enctype="multipart/form-data" id="upload-form" class="upload__form">
+      {% csrf_token %}
+
+      {% if form.errors %}
+        <ul class="upload__errors">
+          {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+          {% for error in form.files.errors %}<li>{{ error }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+
+      <div class="upload__choices">
+        <label for="single-upload" class="upload-button">
+          <span class="upload-button__text">Select Image</span>
+          <img src="{% static 'images/SingleIcon.png' %}" alt="" class="upload-button__icon">
+        </label>
+        <input type="file" id="single-upload" name="files" class="upload__input" accept="image/*">
+
+        <label for="multiple-upload" class="upload-button">
+          <span class="upload-button__text">Select Images</span>
+          <img src="{% static 'images/MultipleIcon.png' %}" alt="" class="upload-button__icon">
+        </label>
+        <input type="file" id="multiple-upload" name="files" class="upload__input" accept="image/*" multiple>
+      </div>
+
+      <p class="upload__selection" id="upload-selection" aria-live="polite"></p>
+      <button type="submit" class="upload__submit" id="upload-submit">Submit</button>
+    </form>
+  </section>
+
+  <footer class="site-footer">
+    <h2 class="section-title">Contact Us</h2>
+  </footer>
+{% endblock %}
+
+{% block scripts %}<script src="{% static 'js/home.js' %}"></script>{% endblock %}

@@ -1,0 +1,108 @@
+/* Review page: extracted data, edition and export. */
+
+.review {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.documents {
+  box-sizing: border-box;
+  width: 93vw;
+  min-height: 100vh;
+  margin-top: 5vh;
+  padding: 50px;
+  border: 1px solid #000000;
+  border-radius: 4rem;
+  background: var(--color-light);
+}
+
+.document + .document {
+  margin-top: 3rem;
+}
+
+.document__heading {
+  margin-bottom: 2vh;
+  color: var(--color-dark);
+  font-size: 1.75rem;
+}
+
+.document__text {
+  white-space: break-spaces;
+}
+
+.document__editor {
+  margin-bottom: 0.5vh;
+  background-color: var(--color-light);
+}
+
+.document__editor:focus,
+.form-check-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 3px 3px var(--color-accent);
+}
+
+/* --- Buttons ---------------------------------------------------------------- */
+
+.actions {
+  display: flex;
+  justify-content: center;
+}
+
+.action-button {
+  width: 13.5vw;
+  height: 4.2vw;
+  margin: 2vw;
+  border: none;
+  border-radius: 6.125rem;
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-family: var(--font-title);
+  font-size: 2.2vw;
+  font-weight: 700;
+  transition: background-color var(--transition);
+}
+
+.action-button:hover {
+  background: var(--color-accent-dark);
+}
+
+/* --- Export ----------------------------------------------------------------- */
+
+.export {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0 0 7vh 3.5vw;
+  color: var(--color-white);
+}
+
+.export__title {
+  font-family: var(--font-title);
+  font-size: 2vw;
+  font-weight: 700;
+}
+
+.export__option {
+  display: flex;
+  align-items: center;
+  gap: 1.5vh;
+  margin: 0 2vh 2vh;
+  font-family: var(--font-title);
+  font-size: 3rem;
+}
+
+.export__option .form-check-input {
+  margin: 0;
+}
+
+.form-check-input:checked {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent);
+}
+
+.export .action-button {
+  margin: 3vh 0 0;
+}
